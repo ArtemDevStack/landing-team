@@ -18,15 +18,15 @@ export default function FullCycle() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[hsl(var(--av-line))] rounded-2xl overflow-hidden border border-line">
           {t.steps.map(([name, desc], idx) => (
             <Reveal key={name} i={idx % 4} className="h-full">
-              <div className="group relative h-full bg-[hsl(var(--av-bg))] hover:bg-[hsl(var(--av-bg-raise))] transition-colors duration-500 p-7 md:p-8 flex flex-col min-h-[190px]">
+              <div className="group relative h-full bg-[hsl(var(--av-bg))] hover:bg-[hsl(var(--av-bg-raise))] transition-colors duration-500 p-4 sm:p-7 md:p-8 flex flex-col min-h-[170px] sm:min-h-[190px]">
                 <div className="font-mono-tech text-xs text-faint group-hover:text-accent transition-colors duration-500">
                   {String(idx + 1).padStart(2, '0')}
                 </div>
-                <div className="mt-auto pt-8">
-                  <div className="font-display font-bold text-lg md:text-xl tracking-tight group-hover:text-accent transition-colors duration-500">
+                <div className="mt-auto pt-4 sm:pt-8">
+                  <div className="font-display font-bold text-base sm:text-lg md:text-xl tracking-tight group-hover:text-accent transition-colors duration-500">
                     {name}
                   </div>
-                  <div className="mt-2 text-sm text-faint group-hover:text-dim leading-snug transition-colors duration-500">
+                  <div className="mt-2 text-xs sm:text-sm text-faint group-hover:text-dim leading-snug transition-colors duration-500">
                     {desc}
                   </div>
                 </div>
@@ -36,7 +36,7 @@ export default function FullCycle() {
           ))}
           {/* Filler cell with CTA */}
           <Reveal i={3} className="h-full">
-            <div className="relative h-full bg-[hsl(var(--av-bg-raise)/0.4)] p-7 md:p-8 flex flex-col min-h-[190px] items-start justify-between">
+            <div className="relative h-full bg-[hsl(var(--av-bg-raise)/0.4)] p-4 sm:p-7 md:p-8 flex flex-col min-h-[170px] sm:min-h-[190px] items-start justify-between">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" className="anim-float">
                 <path
                   d="M24 15 a9 9 0 1 1 -3 -6.7"

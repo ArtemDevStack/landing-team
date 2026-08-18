@@ -555,60 +555,60 @@ export default function InteractiveDemoSandbox() {
         />
 
         {/* Tab Selector */}
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex flex-wrap gap-2 p-1.5 rounded-2xl border border-line bg-[hsl(var(--av-bg-panel))] shadow-xl justify-center">
+        <div className="mt-6 sm:mt-8 flex justify-start sm:justify-center overflow-x-auto custom-scrollbar-x max-w-full pb-1 px-1">
+          <div className="inline-flex gap-1.5 sm:gap-2 p-1.5 rounded-2xl border border-line bg-[hsl(var(--av-bg-panel))] shadow-xl shrink-0 min-w-max">
             <button
               onClick={() => setActiveTab('ai')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all whitespace-nowrap ${
                 activeTab === 'ai'
                   ? 'bg-[hsl(var(--av-accent))] text-black shadow-md shadow-[hsl(var(--av-accent-glow))]'
                   : 'text-dim hover:text-foreground'
               }`}
             >
-              <Bot className="w-4 h-4" />
+              <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
               <span>{lang === 'ru' ? '1. Живой ИИ-Чат' : '1. Neural AI Live'}</span>
             </button>
 
             <button
               onClick={() => setActiveTab('crm')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all whitespace-nowrap ${
                 activeTab === 'crm'
                   ? 'bg-[hsl(var(--av-accent))] text-black shadow-md shadow-[hsl(var(--av-accent-glow))]'
                   : 'text-dim hover:text-foreground'
               }`}
             >
-              <LayoutGrid className="w-4 h-4" />
+              <LayoutGrid className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
               <span>{lang === 'ru' ? '2. CRM Канбан & 1С' : '2. Real DnD CRM'}</span>
             </button>
 
             <button
               onClick={() => setActiveTab('monitor')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all whitespace-nowrap ${
                 activeTab === 'monitor'
                   ? 'bg-[hsl(var(--av-accent))] text-black shadow-md shadow-[hsl(var(--av-accent-glow))]'
                   : 'text-dim hover:text-foreground'
               }`}
             >
-              <Activity className="w-4 h-4" />
+              <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
               <span>{lang === 'ru' ? '3. Мониторинг & DDoS' : '3. Load & DDoS Simulator'}</span>
             </button>
 
             <button
               onClick={() => setActiveTab('bus')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-display font-semibold text-xs md:text-sm transition-all whitespace-nowrap ${
                 activeTab === 'bus'
                   ? 'bg-[hsl(var(--av-accent))] text-black shadow-md shadow-[hsl(var(--av-accent-glow))]'
                   : 'text-dim hover:text-foreground'
               }`}
             >
-              <Network className="w-4 h-4" />
+              <Network className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
               <span>{lang === 'ru' ? '4. 1С & Event Bus' : '4. 1C & Event Bus'}</span>
             </button>
           </div>
         </div>
 
         {/* Sandbox Panel */}
-        <div className="mt-8 rounded-3xl border border-[hsl(var(--av-accent)/0.3)] bg-[hsl(var(--av-bg-panel)/0.9)] p-6 md:p-8 backdrop-blur-2xl shadow-2xl relative min-h-[480px]">
+        <div className="mt-6 sm:mt-8 rounded-3xl border border-[hsl(var(--av-accent)/0.3)] bg-[hsl(var(--av-bg-panel)/0.9)] p-3.5 sm:p-6 md:p-8 backdrop-blur-2xl shadow-2xl relative min-h-[480px]">
           <AnimatePresence mode="wait">
             {/* ================= TAB 1: REAL AI CHAT WITH STREAMING ================= */}
             {activeTab === 'ai' && (
@@ -622,11 +622,11 @@ export default function InteractiveDemoSandbox() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-line pb-3.5 gap-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[hsl(var(--av-accent-soft))] border border-[hsl(var(--av-accent)/0.4)] flex items-center justify-center text-[hsl(var(--av-accent))] shadow-inner">
+                    <div className="w-8 h-8 rounded-xl bg-[hsl(var(--av-accent-soft))] border border-[hsl(var(--av-accent)/0.4)] flex items-center justify-center text-[hsl(var(--av-accent))] shadow-inner shrink-0">
                       <Bot className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="font-display font-bold text-xs sm:text-sm text-foreground flex items-center gap-2">
+                      <div className="font-display font-bold text-xs sm:text-sm text-foreground flex items-center gap-2 flex-wrap">
                         <span>{lang === 'ru' ? 'Консультация с ИИ-Архитектором' : 'AI Architect Consultation'}</span>
                         <span className="inline-flex items-center gap-1 text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 font-medium">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -648,7 +648,7 @@ export default function InteractiveDemoSandbox() {
                   data-lenis-prevent
                   onWheel={(e) => e.stopPropagation()}
                   onTouchMove={(e) => e.stopPropagation()}
-                  className="rounded-2xl border border-line bg-[hsl(var(--av-bg))] p-4 sm:p-5 h-[380px] md:h-[430px] overflow-y-auto space-y-4 custom-scrollbar-y overscroll-contain"
+                  className="rounded-2xl border border-line bg-[hsl(var(--av-bg))] p-3 sm:p-5 h-[340px] xs:h-[380px] md:h-[430px] overflow-y-auto space-y-4 custom-scrollbar-y overscroll-contain"
                 >
                   {messages.map((m) => (
                     <div
@@ -656,24 +656,24 @@ export default function InteractiveDemoSandbox() {
                       className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}
                     >
                       {m.sender === 'user' ? (
-                        <div className="flex flex-col items-end space-y-1 max-w-[85%] sm:max-w-[75%]">
+                        <div className="flex flex-col items-end space-y-1 max-w-[90%] sm:max-w-[75%]">
                           <span className="text-[10px] font-mono-tech text-faint uppercase font-bold tracking-wider">
                             {lang === 'ru' ? 'Вы' : 'You'}
                           </span>
-                          <div className="p-3.5 sm:p-4 rounded-2xl rounded-tr-none bg-[hsl(var(--av-accent))] text-black font-sans font-bold text-xs sm:text-sm shadow-md leading-relaxed">
+                          <div className="p-3 sm:p-4 rounded-2xl rounded-tr-none bg-[hsl(var(--av-accent))] text-black font-sans font-bold text-xs sm:text-sm shadow-md leading-relaxed break-words">
                             {m.text}
                           </div>
                         </div>
                       ) : (
-                        <div className="flex items-start gap-2.5 max-w-[95%] sm:max-w-[88%]">
-                          <div className="w-7 h-7 rounded-lg bg-[hsl(var(--av-accent-soft))] border border-[hsl(var(--av-accent)/0.4)] flex items-center justify-center text-[hsl(var(--av-accent))] text-xs font-mono-tech font-bold shrink-0 mt-5">
+                        <div className="flex items-start gap-2 max-w-[98%] sm:max-w-[88%]">
+                          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[hsl(var(--av-accent-soft))] border border-[hsl(var(--av-accent)/0.4)] flex items-center justify-center text-[hsl(var(--av-accent))] text-[10px] sm:text-xs font-mono-tech font-bold shrink-0 mt-5">
                             AI
                           </div>
                           <div className="flex flex-col items-start space-y-1 flex-1 min-w-0">
                             <span className="text-[10px] font-mono-tech text-dim uppercase font-bold tracking-wider">
                               {lang === 'ru' ? 'ИИ-Архитектор AV Studio' : 'AV Studio AI Architect'}
                             </span>
-                            <div className="p-3.5 sm:p-4 rounded-2xl rounded-tl-none bg-[hsl(var(--av-bg-panel))] border border-line text-foreground text-xs sm:text-sm shadow-lg leading-relaxed w-full">
+                            <div className="p-3 sm:p-4 rounded-2xl rounded-tl-none bg-[hsl(var(--av-bg-panel))] border border-line text-foreground text-xs sm:text-sm shadow-lg leading-relaxed w-full break-words overflow-hidden">
                               {m.isNew ? (
                                 <TypewriterMarkdown content={m.text} />
                               ) : (
@@ -689,7 +689,7 @@ export default function InteractiveDemoSandbox() {
                   {/* Real-time AI Query Processing Indicator */}
                   {isThinking && (
                     <div className="p-3.5 rounded-2xl border border-[hsl(var(--av-accent)/0.35)] bg-[hsl(var(--av-accent-soft))] space-y-2">
-                      <div className="flex items-center justify-between text-xs font-mono-tech text-[hsl(var(--av-accent))] font-bold">
+                      <div className="flex items-center justify-between text-xs font-mono-tech text-[hsl(var(--av-accent))] font-bold flex-wrap gap-1">
                         <div className="flex items-center gap-2">
                           <Cpu className="w-4 h-4 animate-spin text-[hsl(var(--av-accent))]" />
                           <span>
@@ -711,22 +711,22 @@ export default function InteractiveDemoSandbox() {
 
                 {/* Interactive Preset Prompts */}
                 <div className="space-y-1.5">
-                  <div className="text-[11px] font-mono-tech uppercase text-faint flex items-center gap-1.5 font-semibold">
-                    <Sparkles className="w-3.5 h-3.5 text-[hsl(var(--av-accent))]" />
+                  <div className="text-[10px] sm:text-[11px] font-mono-tech uppercase text-faint flex items-center gap-1.5 font-semibold">
+                    <Sparkles className="w-3.5 h-3.5 text-[hsl(var(--av-accent))] shrink-0" />
                     <span>{lang === 'ru' ? 'Быстрые вопросы для тестирования:' : 'Quick Prompts:'}</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {PRESET_PROMPTS.map((item, idx) => (
                       <button
                         key={idx}
                         disabled={isThinking}
                         onClick={() => handleSendAi(lang === 'ru' ? item.textRu : item.textEn)}
-                        className="px-3 py-1.5 rounded-xl border border-line bg-[hsl(var(--av-bg))] text-[11px] font-mono-tech text-dim hover:text-foreground hover:border-[hsl(var(--av-accent))] transition-all text-left flex items-center gap-1.5"
+                        className="px-2.5 py-1.5 rounded-xl border border-line bg-[hsl(var(--av-bg))] text-[10px] sm:text-[11px] font-mono-tech text-dim hover:text-foreground hover:border-[hsl(var(--av-accent))] transition-all text-left flex items-center gap-1.5 leading-normal max-w-full break-words"
                       >
-                        <span className="text-[hsl(var(--av-accent))] font-bold">
+                        <span className="text-[hsl(var(--av-accent))] font-bold shrink-0">
                           [{lang === 'ru' ? item.tagRu : item.tagEn}]
                         </span>
-                        <span>{lang === 'ru' ? item.textRu : item.textEn}</span>
+                        <span className="truncate max-w-[210px] xs:max-w-none">{lang === 'ru' ? item.textRu : item.textEn}</span>
                       </button>
                     ))}
                   </div>
@@ -738,7 +738,7 @@ export default function InteractiveDemoSandbox() {
                     e.preventDefault()
                     handleSendAi()
                   }}
-                  className="flex gap-2 pt-1"
+                  className="flex flex-col xs:flex-row gap-2 pt-1"
                 >
                   <input
                     type="text"
@@ -746,18 +746,18 @@ export default function InteractiveDemoSandbox() {
                     onChange={(e) => setInputVal(e.target.value)}
                     placeholder={
                       lang === 'ru'
-                        ? 'Спросите у нейросети всё, что угодно о проекте...'
-                        : 'Ask Neural AI anything about your project requirements...'
+                        ? 'Спросите у нейросети всё, что угодно...'
+                        : 'Ask Neural AI anything about your project...'
                     }
-                    className="flex-1 px-4 py-3.5 rounded-xl border border-line bg-[hsl(var(--av-bg))] text-xs sm:text-sm text-foreground focus:outline-none focus:border-[hsl(var(--av-accent))] transition-colors"
+                    className="flex-1 px-3.5 sm:px-4 py-3 rounded-xl border border-line bg-[hsl(var(--av-bg))] text-xs sm:text-sm text-foreground focus:outline-none focus:border-[hsl(var(--av-accent))] transition-colors w-full"
                   />
                   <button
                     type="submit"
                     disabled={isThinking || !inputVal.trim()}
-                    className="px-6 py-3.5 rounded-xl bg-[hsl(var(--av-accent))] text-black font-bold text-xs font-mono-tech uppercase flex items-center gap-2 hover:shadow-[0_0_24px_hsl(var(--av-accent-glow))] transition-all disabled:opacity-50"
+                    className="px-5 sm:px-6 py-3 rounded-xl bg-[hsl(var(--av-accent))] text-black font-bold text-xs font-mono-tech uppercase flex items-center justify-center gap-2 hover:shadow-[0_0_24px_hsl(var(--av-accent-glow))] transition-all disabled:opacity-50 shrink-0 w-full xs:w-auto"
                   >
                     <span>{lang === 'ru' ? 'Спросить ИИ' : 'Send Prompt'}</span>
-                    <Send className="w-4 h-4" />
+                    <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </form>
               </motion.div>

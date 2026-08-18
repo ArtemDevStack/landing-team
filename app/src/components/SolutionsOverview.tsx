@@ -187,7 +187,7 @@ export default function SolutionsOverview() {
           {PRODUCTS.map((item, idx) => (
             <div
               key={item.titleRu}
-              className="gsap-solution-card h-full rounded-3xl border border-line bg-[hsl(var(--av-bg-raise)/0.5)] p-7 md:p-9 flex flex-col justify-between hover:border-[hsl(var(--av-accent)/0.6)] hover:shadow-[0_0_32px_hsl(var(--av-accent-glow))] transition-all duration-300 backdrop-blur-sm relative overflow-hidden group"
+              className="gsap-solution-card h-full rounded-3xl border border-line bg-[hsl(var(--av-bg-raise)/0.5)] p-4 sm:p-7 md:p-9 flex flex-col justify-between hover:border-[hsl(var(--av-accent)/0.6)] hover:shadow-[0_0_32px_hsl(var(--av-accent-glow))] transition-all duration-300 backdrop-blur-sm relative overflow-hidden group"
             >
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--av-accent)/0.5)] bg-[hsl(var(--av-accent-soft))] px-3.5 py-1 font-mono-tech text-xs font-semibold text-[hsl(var(--av-accent))]">
