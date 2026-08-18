@@ -196,14 +196,23 @@ export default function OrderModal({ isOpen, onClose, initialService = 'Full Cyc
       if (scrollbarWidth > 0) {
         document.body.style.paddingRight = `${scrollbarWidth}px`
       }
+      if (typeof window !== 'undefined' && (window as any).lenis) {
+        ;(window as any).lenis.stop()
+      }
       window.addEventListener('keydown', handleKeyDown)
     } else {
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
+      if (typeof window !== 'undefined' && (window as any).lenis) {
+        ;(window as any).lenis.start()
+      }
     }
     return () => {
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
+      if (typeof window !== 'undefined' && (window as any).lenis) {
+        ;(window as any).lenis.start()
+      }
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, onClose])
@@ -296,7 +305,7 @@ export default function OrderModal({ isOpen, onClose, initialService = 'Full Cyc
   return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto pointer-events-auto">
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6 overflow-x-hidden overflow-y-auto pointer-events-auto">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -312,7 +321,8 @@ export default function OrderModal({ isOpen, onClose, initialService = 'Full Cyc
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-2xl rounded-3xl border border-[hsl(var(--av-accent)/0.4)] bg-[hsl(var(--av-bg-panel))] p-6 sm:p-8 shadow-2xl overflow-hidden z-10 my-auto pointer-events-auto backdrop-blur-xl"
+            data-lenis-prevent
+            className="relative w-full max-w-2xl rounded-3xl border border-[hsl(var(--av-accent)/0.4)] bg-[hsl(var(--av-bg-panel))] p-5 sm:p-8 shadow-2xl overflow-x-hidden overflow-y-auto max-h-[92vh] custom-scrollbar-y overscroll-contain z-10 my-auto pointer-events-auto backdrop-blur-xl"
           >
             {/* Ambient Glow */}
             <div

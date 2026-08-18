@@ -287,37 +287,39 @@ export default function InteractiveDemoSandbox() {
     setDragOverStage(null)
   }
 
+  const moveDealToStage = (id: number, targetStage: 'new' | 'proc' | 'done') => {
+    const movedDeal = deals.find((d) => d.id === id)
+    if (!movedDeal || movedDeal.stage === targetStage) return
+    setDeals((prev) =>
+      prev.map((d) => (d.id === id ? { ...d, stage: targetStage, updatedAt: 'Только что' } : d))
+    )
+    if (targetStage === 'proc') {
+      showToast(
+        lang === 'ru'
+          ? `[1С:Enterprise API] Выставлен счет на ${movedDeal.amount} для ${movedDeal.client}!`
+          : `[1C ERP API] Invoice generated for ${movedDeal.client}!`,
+        '📄',
+        'border-amber-500/50 bg-amber-500/10 text-amber-300 font-bold'
+      )
+    } else if (targetStage === 'done') {
+      showToast(
+        lang === 'ru'
+          ? `[Telegram & 1С] 🎉 Сделка ${movedDeal.client} на ${movedDeal.amount} закрыта! Акт сформирован.`
+          : `[Telegram & 1C] 🎉 Deal with ${movedDeal.client} closed & verified!`,
+        '🎉',
+        'border-emerald-500/50 bg-emerald-500/10 text-emerald-300 font-bold'
+      )
+    }
+  }
+
   const handleDrop = (e: React.DragEvent, targetStage: 'new' | 'proc' | 'done') => {
     e.preventDefault()
     setDragOverStage(null)
     const dealIdStr = e.dataTransfer.getData('text/plain')
     const id = parseInt(dealIdStr, 10) || draggedDealId
     if (id) {
-      const movedDeal = deals.find((d) => d.id === id)
-      setDeals((prev) =>
-        prev.map((d) => (d.id === id ? { ...d, stage: targetStage, updatedAt: 'Только что' } : d))
-      )
+      moveDealToStage(id, targetStage)
       setDraggedDealId(null)
-
-      if (movedDeal && movedDeal.stage !== targetStage) {
-        if (targetStage === 'proc') {
-          showToast(
-            lang === 'ru'
-              ? `[1С:Enterprise API] Выставлен счет на ${movedDeal.amount} для ${movedDeal.client}!`
-              : `[1C ERP API] Invoice generated for ${movedDeal.client}!`,
-            '📄',
-            'border-amber-500/50 bg-amber-500/10 text-amber-300 font-bold'
-          )
-        } else if (targetStage === 'done') {
-          showToast(
-            lang === 'ru'
-              ? `[Telegram & 1С] 🎉 Сделка ${movedDeal.client} на ${movedDeal.amount} закрыта! Акт сформирован.`
-              : `[Telegram & 1C] 🎉 Deal with ${movedDeal.client} closed & verified!`,
-            '🎉',
-            'border-emerald-500/50 bg-emerald-500/10 text-emerald-300 font-bold'
-          )
-        }
-      }
     }
   }
 
@@ -376,20 +378,32 @@ export default function InteractiveDemoSandbox() {
       const timestamp = new Date().toLocaleTimeString()
       let logLine = ''
       if (isDdosTesting) {
-        logLine = `[${timestamp}] ⚡ K8s Self-Healing: Pod node-04 auto-rescheduled in 280ms. (0 dropped requests)`
+        logLine =
+          lang === 'ru'
+            ? `[${timestamp}] ⚡ K8s Самовосстановление: Нода node-04 перезапущена за 280мс. (0 потерянных запросов)`
+            : `[${timestamp}] ⚡ K8s Self-Healing: Pod node-04 auto-rescheduled in 280ms. (0 dropped requests)`
       } else if (loadLevel === 'stress') {
-        logLine = `[${timestamp}] [K8s Autoscaler] ⚡ Auto-scaled cluster to ${targetPods} pods (Traffic spike detected)`
+        logLine =
+          lang === 'ru'
+            ? `[${timestamp}] [K8s Автомасштабирование] ⚡ Кластер расширен до ${targetPods} подов (Всплеск трафика)`
+            : `[${timestamp}] [K8s Autoscaler] ⚡ Auto-scaled cluster to ${targetPods} pods (Traffic spike detected)`
       } else if (loadLevel === 'peak') {
-        logLine = `[${timestamp}] [1C Sync Engine] 🔄 420 events batch synchronized via RabbitMQ (< 15ms)`
+        logLine =
+          lang === 'ru'
+            ? `[${timestamp}] [1С Синхронизация] 🔄 Пакет из 420 событий synchronized via RabbitMQ (< 15мс)`
+            : `[${timestamp}] [1C Sync Engine] 🔄 420 events batch synchronized via RabbitMQ (< 15ms)`
       } else {
-        logLine = `[${timestamp}] [Postgres DB] ✅ Primary Read Replica healthy (Connection pool: 12%)`
+        logLine =
+          lang === 'ru'
+            ? `[${timestamp}] [Postgres БД] ✅ Основная реплика чтения исправна (Пул подключений: 12%)`
+            : `[${timestamp}] [Postgres DB] ✅ Primary Read Replica healthy (Connection pool: 12%)`
       }
 
       setLogs((prev) => [logLine, ...prev.slice(0, 4)])
     }, 1200)
 
     return () => clearInterval(interval)
-  }, [loadLevel, selectedRegion, isDdosTesting])
+  }, [loadLevel, selectedRegion, isDdosTesting, lang])
 
   const handleSimulateDdos = () => {
     setIsDdosTesting(true)
@@ -403,9 +417,15 @@ export default function InteractiveDemoSandbox() {
     )
     const timestamp = new Date().toLocaleTimeString()
     setLogs((prev) => [
-      `[${timestamp}] ⚠️ ALERT: Traffic surge +850%! CPU load reached 98%`,
-      `[${timestamp}] ⚡ K8s Autoscaler: Scaling cluster from 12 to 48 pods (< 350ms)`,
-      `[${timestamp}] 🛡️ Cloudflare Rate-Limiter: 14,200 malicious IPs throttled`,
+      lang === 'ru'
+        ? `[${timestamp}] ⚠️ ТРЕВОГА: Всплеск трафика +850%! Загрузка CPU достигла 98%`
+        : `[${timestamp}] ⚠️ ALERT: Traffic surge +850%! CPU load reached 98%`,
+      lang === 'ru'
+        ? `[${timestamp}] ⚡ K8s Автомасштабирование: Масштабирование кластера с 12 до 48 подов (< 350мс)`
+        : `[${timestamp}] ⚡ K8s Autoscaler: Scaling cluster from 12 to 48 pods (< 350ms)`,
+      lang === 'ru'
+        ? `[${timestamp}] 🛡️ Cloudflare Rate-Limiter: Заблокировано 14 200 вредоносных IP`
+        : `[${timestamp}] 🛡️ Cloudflare Rate-Limiter: 14,200 malicious IPs throttled`,
       ...prev,
     ])
 
@@ -429,8 +449,10 @@ export default function InteractiveDemoSandbox() {
       id: 'next' as const,
       title: 'Next.js 15 Edge App',
       icon: Layers,
-      type: 'Frontend Edge',
-      status: '200 OK (3ms)',
+      typeRu: 'Фронтенд Edge',
+      typeEn: 'Frontend Edge',
+      statusRu: '200 OK (3мс)',
+      statusEn: '200 OK (3ms)',
       descriptionRu: 'Генерирует клиентские события, формы заказов и фильтрации каталога.',
       descriptionEn: 'Generates client orders, catalog filters and interactive events.',
       json: `{\n  "event": "CLIENT_CHECKOUT",\n  "client": "ООО МедЛайн",\n  "amount": 890000,\n  "timestamp": "${new Date().toISOString()}"\n}`,
@@ -439,8 +461,10 @@ export default function InteractiveDemoSandbox() {
       id: 'rabbitmq' as const,
       title: 'RabbitMQ Event Bus',
       icon: Zap,
-      type: 'Event Bus',
-      status: 'Queue: 0 delay',
+      typeRu: 'Шина событий',
+      typeEn: 'Event Bus',
+      statusRu: 'Очередь: без задержки',
+      statusEn: 'Queue: 0 delay',
       descriptionRu: 'Отказоустойчивая шина. Гарантирует доставку 100% данных без потерь даже при оффлайне 1С.',
       descriptionEn: 'Decoupled message broker guaranteeing zero data loss during peak loads.',
       json: `{\n  "broker": "RabbitMQCluster_v3",\n  "exchange": "enterprise_events",\n  "routingKey": "order.created",\n  "deliveryAck": true\n}`,
@@ -449,8 +473,10 @@ export default function InteractiveDemoSandbox() {
       id: '1c' as const,
       title: '1С:Предприятие 8.3',
       icon: Server,
-      type: 'ERP Core',
-      status: '1C OData Sync',
+      typeRu: 'Ядро ERP',
+      typeEn: 'ERP Core',
+      statusRu: '1С OData Синхро',
+      statusEn: '1C OData Sync',
       descriptionRu: 'Автоматически регистрирует заказы, выставляет счета и списывает остатки на складе.',
       descriptionEn: 'Auto-generates 1C ERP invoices, syncs stock levels and contracts.',
       json: `{\n  "1C_Document": "СчетНаОплату_№48291",\n  "status": "Выставлен",\n  "contract": "Оферта №8812",\n  "syncTimeMs": 14\n}`,
@@ -459,8 +485,10 @@ export default function InteractiveDemoSandbox() {
       id: 'telegram' as const,
       title: 'Telegram Client Bot',
       icon: Send,
-      type: 'Bot Notification',
-      status: 'Webhooks Active',
+      typeRu: 'Бот уведомлений',
+      typeEn: 'Bot Notification',
+      statusRu: 'Вебхуки активны',
+      statusEn: 'Webhooks Active',
       descriptionRu: 'Моментально отправляет Push-уведомление руководителю и менеджеру в Telegram.',
       descriptionEn: 'Sends real-time high-priority deal notifications directly to Telegram.',
       json: `{\n  "chatId": "@av_management",\n  "text": "⚡ Новая оплата 1С: 890,000 ₽! Акт отправлен на email.",\n  "delivered": true\n}`,
@@ -469,8 +497,10 @@ export default function InteractiveDemoSandbox() {
       id: 'db' as const,
       title: 'PostgreSQL & Redis',
       icon: Database,
-      type: 'Persistent Storage',
-      status: 'Read Replica Live',
+      typeRu: 'Хранилище данных',
+      typeEn: 'Persistent Storage',
+      statusRu: 'Реплика чтения активна',
+      statusEn: 'Read Replica Live',
       descriptionRu: 'Партиционированная реляционная БД с репликацией и Redis-кэшем (< 2ms).',
       descriptionEn: 'Partitioned relational database cluster with Redis edge cache (< 2ms).',
       json: `{\n  "db": "PostgreSQL_16_Primary",\n  "connections": 42,\n  "cacheHitRatio": "98.8%",\n  "replicaLagMs": 1\n}`,
@@ -869,9 +899,17 @@ export default function InteractiveDemoSandbox() {
                             {deal.updatedAt && (
                               <div className="text-[10px] font-mono-tech text-emerald-400/80">{deal.updatedAt}</div>
                             )}
-                            <div className="text-[10px] text-faint flex items-center gap-1.5 pt-2 border-t border-line">
-                              <span className="cursor-grab text-[hsl(var(--av-accent))]">⣿</span>
-                              <span>{lang === 'ru' ? 'Перетащите мышкой →' : 'Drag me →'}</span>
+                            <div className="text-[10px] text-faint flex items-center justify-between pt-2 border-t border-line">
+                              <span className="hidden sm:inline flex items-center gap-1 cursor-grab">
+                                <span className="text-[hsl(var(--av-accent))]">⣿</span> {lang === 'ru' ? 'Перетащите' : 'Drag'}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => moveDealToStage(deal.id, 'proc')}
+                                className="px-2 py-1 rounded-md bg-[hsl(var(--av-accent-soft))] text-[hsl(var(--av-accent))] font-bold text-[10px] hover:bg-[hsl(var(--av-accent))] hover:text-black transition-all ml-auto"
+                              >
+                                {lang === 'ru' ? 'Выставить счет →' : 'Move to Proc →'}
+                              </button>
                             </div>
                           </div>
                         ))}
@@ -923,9 +961,21 @@ export default function InteractiveDemoSandbox() {
                             {deal.updatedAt && (
                               <div className="text-[10px] font-mono-tech text-emerald-400/80">{deal.updatedAt}</div>
                             )}
-                            <div className="text-[10px] text-faint flex items-center gap-1.5 pt-2 border-t border-line">
-                              <span className="cursor-grab text-[hsl(var(--av-accent))]">⣿</span>
-                              <span>{lang === 'ru' ? 'Перетащите мышкой →' : 'Drag me →'}</span>
+                            <div className="text-[10px] text-faint flex items-center justify-between pt-2 border-t border-line gap-1">
+                              <button
+                                type="button"
+                                onClick={() => moveDealToStage(deal.id, 'new')}
+                                className="px-2 py-1 rounded-md bg-[hsl(var(--av-bg))] text-faint text-[10px] hover:text-foreground"
+                              >
+                                ← {lang === 'ru' ? 'Назад' : 'Back'}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => moveDealToStage(deal.id, 'done')}
+                                className="px-2 py-1 rounded-md bg-emerald-500/20 text-emerald-300 font-bold text-[10px] hover:bg-emerald-500 hover:text-black transition-all"
+                              >
+                                {lang === 'ru' ? '✓ Оплачено' : '✓ Mark Paid'}
+                              </button>
                             </div>
                           </div>
                         ))}
@@ -972,9 +1022,18 @@ export default function InteractiveDemoSandbox() {
                               </span>
                             </div>
                             <div className="text-xs font-mono-tech text-emerald-400 font-bold">{deal.amount}</div>
-                            <div className="text-[10px] text-emerald-400/90 flex items-center gap-1.5 pt-2 border-t border-line">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                              <span>1С Оплата и Акт созданы</span>
+                            <div className="text-[10px] text-emerald-400/90 flex items-center justify-between pt-2 border-t border-line">
+                              <div className="flex items-center gap-1">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                                <span>1С Оплата</span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => moveDealToStage(deal.id, 'proc')}
+                                className="px-2 py-0.5 rounded bg-[hsl(var(--av-bg))] text-faint hover:text-foreground text-[10px]"
+                              >
+                                ← {lang === 'ru' ? 'В работу' : 'Reopen'}
+                              </button>
                             </div>
                           </div>
                         ))}
@@ -1000,7 +1059,7 @@ export default function InteractiveDemoSandbox() {
                       <span>{lang === 'ru' ? 'Дашборд нагрузки и K8s Self-Healing' : 'Live Cluster & Stress Dashboard'}</span>
                       {isDdosTesting && (
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-mono-tech bg-red-500/20 border border-red-500 text-red-400 animate-pulse font-bold">
-                          🔥 DDoS ACTIVE
+                          {lang === 'ru' ? '🔥 DDOS АТАКА' : '🔥 DDoS ACTIVE'}
                         </span>
                       )}
                     </div>
@@ -1059,17 +1118,17 @@ export default function InteractiveDemoSandbox() {
                 </div>
 
                 {/* Region Selector */}
-                <div className="flex items-center justify-between bg-[hsl(var(--av-bg-panel))] p-3 rounded-2xl border border-line text-xs font-mono-tech">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[hsl(var(--av-bg-panel))] p-3 rounded-2xl border border-line text-xs font-mono-tech gap-2.5">
                   <span className="text-dim flex items-center gap-1.5 font-bold">
                     <Globe className="w-4 h-4 text-[hsl(var(--av-accent))]" />
                     <span>{lang === 'ru' ? 'Выбор CDN Edge узла:' : 'CDN Edge Location:'}</span>
                   </span>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {REGIONS.map((r) => (
                       <button
                         key={r.id}
                         onClick={() => setSelectedRegion(r.id as any)}
-                        className={`px-2.5 py-1 rounded-lg border transition-all ${
+                        className={`px-2.5 py-1 rounded-lg border transition-all text-xs ${
                           selectedRegion === r.id
                             ? 'border-[hsl(var(--av-accent))] bg-[hsl(var(--av-accent-soft))] text-[hsl(var(--av-accent))] font-bold'
                             : 'border-line text-faint hover:text-foreground'
@@ -1086,7 +1145,7 @@ export default function InteractiveDemoSandbox() {
                   <div className="md:col-span-2 p-4 rounded-2xl border border-line bg-[hsl(var(--av-bg))] space-y-3 relative overflow-hidden flex flex-col justify-between">
                     <div className="flex justify-between items-center">
                       <div className="text-[10px] font-mono-tech text-faint uppercase font-bold">
-                        {lang === 'ru' ? 'Живой график RPS (Grafana Real-Time Stream)' : 'Live RPS Stream (Grafana)'}
+                        {lang === 'ru' ? 'Живой график RPS (Поток Grafana)' : 'Live RPS Stream (Grafana)'}
                       </div>
                       <div className="text-[10px] text-emerald-400 font-mono-tech flex items-center gap-1 font-bold">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
@@ -1119,19 +1178,21 @@ export default function InteractiveDemoSandbox() {
                   <div className="p-4 rounded-2xl border border-line bg-[hsl(var(--av-bg))] space-y-1">
                     <div className="text-[10px] font-mono-tech text-faint uppercase">p99 Задержка API</div>
                     <div className="text-2xl font-display font-extrabold text-emerald-400 font-mono-tech">
-                      {metrics.latency} ms
+                      {metrics.latency} {lang === 'ru' ? 'мс' : 'ms'}
                     </div>
                     <div className="text-[10px] text-faint font-mono-tech">
-                      CDN Edge ({REGIONS.find((r) => r.id === selectedRegion)?.basePing}ms base ping)
+                      CDN Edge ({REGIONS.find((r) => r.id === selectedRegion)?.basePing}{lang === 'ru' ? 'мс базовый пинг' : 'ms base ping'})
                     </div>
                   </div>
 
                   <div className="p-4 rounded-2xl border border-line bg-[hsl(var(--av-bg))] space-y-1">
                     <div className="text-[10px] font-mono-tech text-faint uppercase">Загрузка CPU / K8s Pods</div>
                     <div className="text-2xl font-display font-extrabold text-[hsl(var(--av-accent))] font-mono-tech">
-                      {metrics.cpu}% ({metrics.pods} pods)
+                      {metrics.cpu}% ({metrics.pods} подов)
                     </div>
-                    <div className="text-[10px] text-emerald-400 font-mono-tech">HPA Autoscaler Active</div>
+                    <div className="text-[10px] text-emerald-400 font-mono-tech">
+                      {lang === 'ru' ? 'HPA Автомасштабирование активно' : 'HPA Autoscaler Active'}
+                    </div>
                   </div>
                 </div>
 
@@ -1140,9 +1201,11 @@ export default function InteractiveDemoSandbox() {
                   <div className="flex items-center justify-between border-b border-line pb-2 text-faint text-[10px]">
                     <span className="flex items-center gap-1.5 text-foreground font-bold">
                       <Server className="w-3.5 h-3.5 text-[hsl(var(--av-accent))]" />
-                      LIVE CLUSTER LOG STREAM
+                      {lang === 'ru' ? 'ПОТОК ЛОГОВ КЛАСТЕРА В РЕАЛЬНОМ ВРЕМЕНИ' : 'LIVE CLUSTER LOG STREAM'}
                     </span>
-                    <span className="text-emerald-400 font-bold">99.99% SLA ACTIVE</span>
+                    <span className="text-emerald-400 font-bold">
+                      {lang === 'ru' ? 'SLA 99.99% АКТИВЕН' : '99.99% SLA ACTIVE'}
+                    </span>
                   </div>
 
                   <div className="space-y-1 text-[11px]">
@@ -1150,7 +1213,7 @@ export default function InteractiveDemoSandbox() {
                       <div
                         key={i}
                         className={`${
-                          log.includes('ALERT') || log.includes('⚡ K8s Self-Healing')
+                          log.includes('ALERT') || log.includes('ТРЕВОГА') || log.includes('⚡ K8s Self-Healing') || log.includes('Самовосстановление')
                             ? 'text-amber-400 font-bold'
                             : log.includes('🔄')
                             ? 'text-[hsl(var(--av-accent))]'
@@ -1188,12 +1251,12 @@ export default function InteractiveDemoSandbox() {
                   </div>
 
                   <span className="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30 font-bold">
-                    RABBITMQ EVENT BUS LIVE
+                    {lang === 'ru' ? 'ШИНА СОБЫТИЙ RABBITMQ АКТИВНА' : 'RABBITMQ EVENT BUS LIVE'}
                   </span>
                 </div>
 
                 {/* Interactive Network Graph Cards */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                   {BUS_NODES.map((node) => {
                     const IconComp = node.icon
                     const isSelected = selectedBusNode === node.id
@@ -1221,10 +1284,12 @@ export default function InteractiveDemoSandbox() {
                         </div>
                         <div>
                           <div className="font-bold text-xs text-foreground truncate">{node.title}</div>
-                          <div className="text-[10px] font-mono-tech text-faint">{node.type}</div>
+                          <div className="text-[10px] font-mono-tech text-faint">
+                            {lang === 'ru' ? node.typeRu : node.typeEn}
+                          </div>
                         </div>
                         <div className="text-[10px] font-mono-tech text-emerald-400 font-bold truncate">
-                          {node.status}
+                          {lang === 'ru' ? node.statusRu : node.statusEn}
                         </div>
                       </button>
                     )
@@ -1237,10 +1302,12 @@ export default function InteractiveDemoSandbox() {
                     <div className="p-5 rounded-2xl border border-line bg-[hsl(var(--av-bg))] space-y-3 flex flex-col justify-between">
                       <div>
                         <div className="text-xs font-mono-tech text-[hsl(var(--av-accent))] uppercase font-bold tracking-wider">
-                          Узел: {BUS_NODES.find((n) => n.id === selectedBusNode)?.title}
+                          {lang === 'ru' ? 'Узел:' : 'Node:'} {BUS_NODES.find((n) => n.id === selectedBusNode)?.title}
                         </div>
                         <div className="text-sm font-bold text-foreground mt-1">
-                          {BUS_NODES.find((n) => n.id === selectedBusNode)?.type}
+                          {lang === 'ru'
+                            ? BUS_NODES.find((n) => n.id === selectedBusNode)?.typeRu
+                            : BUS_NODES.find((n) => n.id === selectedBusNode)?.typeEn}
                         </div>
                         <p className="text-xs text-dim leading-relaxed mt-2">
                           {lang === 'ru'
@@ -1250,10 +1317,16 @@ export default function InteractiveDemoSandbox() {
                       </div>
 
                       <div className="p-3 rounded-xl bg-[hsl(var(--av-bg-panel))] border border-line space-y-1 text-xs font-mono-tech">
-                        <div className="text-[10px] text-faint uppercase font-bold">Гарантия отказоустойчивости:</div>
+                        <div className="text-[10px] text-faint uppercase font-bold">
+                          {lang === 'ru' ? 'Гарантия отказоустойчивости:' : 'Fault Tolerance Guarantee:'}
+                        </div>
                         <div className="text-emerald-400 font-bold flex items-center gap-1.5">
                           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                          <span>100% Data Delivery (Zero Loss Guarantee)</span>
+                          <span>
+                            {lang === 'ru'
+                              ? '100% Доставка данных (Гарантия без потерь)'
+                              : '100% Data Delivery (Zero Loss Guarantee)'}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -1263,9 +1336,11 @@ export default function InteractiveDemoSandbox() {
                       <div className="flex justify-between items-center border-b border-line pb-2 text-[10px]">
                         <span className="text-foreground font-bold flex items-center gap-1.5">
                           <Terminal className="w-3.5 h-3.5 text-[hsl(var(--av-accent))]" />
-                          LIVE JSON WEBHOOK PAYLOAD
+                          {lang === 'ru' ? 'JSON PAYLOAD ВЕБХУКА В РЕАЛЬНОМ ВРЕМЕНИ' : 'LIVE JSON WEBHOOK PAYLOAD'}
                         </span>
-                        <span className="text-emerald-400">ACKNOWLEDGED</span>
+                        <span className="text-emerald-400">
+                          {lang === 'ru' ? 'ПОДТВЕРЖДЕНО (ACK)' : 'ACKNOWLEDGED'}
+                        </span>
                       </div>
                       <pre className="text-[11px] text-[hsl(var(--av-accent))] bg-[hsl(var(--av-bg-panel))] p-3.5 rounded-xl border border-line overflow-x-auto leading-relaxed">
                         {BUS_NODES.find((n) => n.id === selectedBusNode)?.json}

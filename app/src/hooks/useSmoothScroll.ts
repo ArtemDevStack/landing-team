@@ -21,6 +21,10 @@ export function useSmoothScroll() {
       touchMultiplier: 2,
     })
 
+    if (typeof window !== 'undefined') {
+      ;(window as any).lenis = lenis
+    }
+
     lenis.on('scroll', ScrollTrigger.update)
 
     const updateGSAPTicker = (time: number) => {

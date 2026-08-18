@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLang } from '../i18n'
 
 export default function Preloader() {
+  const { lang } = useLang()
   const [loading, setLoading] = useState(true)
   const [donutFrame, setDonutFrame] = useState('')
 
@@ -91,7 +93,7 @@ export default function Preloader() {
           {/* Concise Status Indicator */}
           <div className="mt-3 flex items-center gap-2 text-xs font-mono-tech text-dim tracking-widest uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>INITIALIZING...</span>
+            <span>{lang === 'ru' ? 'ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...' : 'INITIALIZING...'}</span>
           </div>
         </motion.div>
       )}

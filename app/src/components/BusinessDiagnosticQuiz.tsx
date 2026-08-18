@@ -112,18 +112,18 @@ export default function BusinessDiagnosticQuiz() {
               {/* Step 1: Niche */}
               {step === 1 && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-                  <h4 className="text-xl font-display font-bold text-foreground">
+                  <h4 className="text-lg sm:text-xl font-display font-bold text-foreground">
                     {lang === 'ru' ? 'В какой сфере работает ваш бизнес?' : 'What industry does your business operate in?'}
                   </h4>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {NICHES.map((item) => (
                       <button
                         key={item.id}
                         onClick={() => handleSelectNiche(item.id)}
-                        className="p-5 rounded-2xl border border-line bg-[hsl(var(--av-bg))] hover:border-[hsl(var(--av-accent))] hover:bg-[hsl(var(--av-accent-soft))] text-left transition-all font-display font-semibold text-sm flex items-center justify-between group"
+                        className="p-4 sm:p-5 rounded-2xl border border-line bg-[hsl(var(--av-bg))] hover:border-[hsl(var(--av-accent))] hover:bg-[hsl(var(--av-accent-soft))] text-left transition-all font-display font-semibold text-xs sm:text-sm flex items-center justify-between group"
                       >
                         <span>{lang === 'ru' ? item.labelRu : item.labelEn}</span>
-                        <ArrowRight className="w-4 h-4 text-faint group-hover:text-[hsl(var(--av-accent))] group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="w-4 h-4 text-faint group-hover:text-[hsl(var(--av-accent))] group-hover:translate-x-1 transition-all shrink-0 ml-2" />
                       </button>
                     ))}
                   </div>
@@ -133,18 +133,18 @@ export default function BusinessDiagnosticQuiz() {
               {/* Step 2: Bottleneck */}
               {step === 2 && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-                  <h4 className="text-xl font-display font-bold text-foreground">
+                  <h4 className="text-lg sm:text-xl font-display font-bold text-foreground">
                     {lang === 'ru' ? 'Какая проблема тормозит ваше развитие больше всего?' : 'What is your primary growth bottleneck?'}
                   </h4>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {BOTTLENECKS.map((item) => (
                       <button
                         key={item.id}
                         onClick={() => handleSelectBottleneck(item.id)}
-                        className="p-5 rounded-2xl border border-line bg-[hsl(var(--av-bg))] hover:border-[hsl(var(--av-accent))] hover:bg-[hsl(var(--av-accent-soft))] text-left transition-all font-display font-semibold text-sm flex items-center justify-between group"
+                        className="p-4 sm:p-5 rounded-2xl border border-line bg-[hsl(var(--av-bg))] hover:border-[hsl(var(--av-accent))] hover:bg-[hsl(var(--av-accent-soft))] text-left transition-all font-display font-semibold text-xs sm:text-sm flex items-center justify-between group"
                       >
                         <span>{lang === 'ru' ? item.labelRu : item.labelEn}</span>
-                        <ArrowRight className="w-4 h-4 text-faint group-hover:text-[hsl(var(--av-accent))] group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="w-4 h-4 text-faint group-hover:text-[hsl(var(--av-accent))] group-hover:translate-x-1 transition-all shrink-0 ml-2" />
                       </button>
                     ))}
                   </div>
@@ -154,18 +154,18 @@ export default function BusinessDiagnosticQuiz() {
               {/* Step 3: Current Stack */}
               {step === 3 && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-                  <h4 className="text-xl font-display font-bold text-foreground">
+                  <h4 className="text-lg sm:text-xl font-display font-bold text-foreground">
                     {lang === 'ru' ? 'На каком IT-стеке система работает сейчас?' : 'What IT stack do you currently rely on?'}
                   </h4>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {STACKS.map((item) => (
                       <button
                         key={item.id}
                         onClick={() => handleSelectStack(item.id)}
-                        className="p-5 rounded-2xl border border-line bg-[hsl(var(--av-bg))] hover:border-[hsl(var(--av-accent))] hover:bg-[hsl(var(--av-accent-soft))] text-left transition-all font-display font-semibold text-sm flex items-center justify-between group"
+                        className="p-4 sm:p-5 rounded-2xl border border-line bg-[hsl(var(--av-bg))] hover:border-[hsl(var(--av-accent))] hover:bg-[hsl(var(--av-accent-soft))] text-left transition-all font-display font-semibold text-xs sm:text-sm flex items-center justify-between group"
                       >
                         <span>{lang === 'ru' ? item.labelRu : item.labelEn}</span>
-                        <ArrowRight className="w-4 h-4 text-faint group-hover:text-[hsl(var(--av-accent))] group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="w-4 h-4 text-faint group-hover:text-[hsl(var(--av-accent))] group-hover:translate-x-1 transition-all shrink-0 ml-2" />
                       </button>
                     ))}
                   </div>
@@ -189,11 +189,11 @@ export default function BusinessDiagnosticQuiz() {
                 </button>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {/* Risk Identification */}
-                <div className="p-5 rounded-2xl border border-red-500/30 bg-red-500/5 space-y-3">
-                  <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
-                    <AlertTriangle className="w-4 h-4" />
+                <div className="p-4 sm:p-5 rounded-2xl border border-red-500/30 bg-red-500/5 space-y-3">
+                  <div className="flex items-center gap-2 text-red-400 font-bold text-xs sm:text-sm">
+                    <AlertTriangle className="w-4 h-4 shrink-0" />
                     <span>{lang === 'ru' ? 'Обнаруженные риски и потери' : 'Identified Risks & Losses'}</span>
                   </div>
                   <ul className="space-y-2 text-xs text-dim">
@@ -217,9 +217,9 @@ export default function BusinessDiagnosticQuiz() {
                 </div>
 
                 {/* Proposed AV Solution */}
-                <div className="p-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 space-y-3">
-                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-                    <CheckCircle2 className="w-4 h-4" />
+                <div className="p-4 sm:p-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 space-y-3">
+                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs sm:text-sm">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
                     <span>{lang === 'ru' ? 'Рекомендованная архитектура AV' : 'Recommended AV Ecosystem Plan'}</span>
                   </div>
                   <ul className="space-y-2 text-xs text-dim">
@@ -247,15 +247,15 @@ export default function BusinessDiagnosticQuiz() {
               <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-line">
                 <button
                   onClick={handleSendDiagnostic}
-                  className="flex-1 py-4 rounded-xl bg-gradient-to-r from-[hsl(var(--av-accent))] to-emerald-400 text-black font-display font-bold text-sm hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg shadow-[hsl(var(--av-accent-glow))]"
+                  className="flex-1 py-3.5 sm:py-4 px-4 rounded-xl bg-gradient-to-r from-[hsl(var(--av-accent))] to-emerald-400 text-black font-display font-bold text-xs sm:text-sm hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg shadow-[hsl(var(--av-accent-glow))]"
                 >
-                  <FileText className="w-4 h-4" />
+                  <FileText className="w-4 h-4 shrink-0" />
                   <span>
                     {lang === 'ru'
-                      ? 'Получить расширенный дорожную карту под мой проект'
+                      ? 'Получить дорожную карту под мой проект'
                       : 'Get Custom Architecture Roadmap'}
                   </span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
               </div>
             </motion.div>

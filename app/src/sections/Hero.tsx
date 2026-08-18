@@ -98,7 +98,7 @@ export default function Hero() {
         </Reveal>
 
         <Reveal i={1}>
-          <h1 className="mt-8 font-display font-extrabold tracking-tight leading-[0.98] text-[13vw] sm:text-7xl lg:text-[5.6rem] max-w-5xl">
+          <h1 className="mt-6 sm:mt-8 font-display font-extrabold tracking-tight leading-[0.98] text-[10.5vw] xs:text-5xl sm:text-7xl lg:text-[5.6rem] max-w-5xl">
             {t.titleA}
             <br />
             <span className="text-accent text-glow">{t.titleB}</span>
@@ -106,16 +106,16 @@ export default function Hero() {
         </Reveal>
 
         <Reveal i={2}>
-          <p className="mt-8 max-w-xl text-base md:text-lg text-dim leading-relaxed">{t.sub}</p>
+          <p className="mt-6 sm:mt-8 max-w-xl text-sm sm:text-base md:text-lg text-dim leading-relaxed">{t.sub}</p>
         </Reveal>
 
         <Reveal i={3}>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
             <motion.button
               onClick={() => openOrderModal()}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-8 py-4 text-base hover:shadow-[0_0_48px_hsl(var(--av-accent-glow))] transition-all duration-300"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-7 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base hover:shadow-[0_0_48px_hsl(var(--av-accent-glow))] transition-all duration-300"
             >
               {t.cta1}
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -126,7 +126,7 @@ export default function Hero() {
               href="#why-us"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-3 rounded-full border border-line-strong px-8 py-4 text-base font-semibold text-foreground hover:border-[hsl(var(--av-accent)/0.6)] hover:text-accent transition-colors duration-300 bg-[hsl(var(--av-bg-raise)/0.4)]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full border border-line-strong px-7 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-foreground hover:border-[hsl(var(--av-accent)/0.6)] hover:text-accent transition-colors duration-300 bg-[hsl(var(--av-bg-raise)/0.4)]"
             >
               {lang === 'ru' ? '⚡ Почему с нами выгоднее' : '⚡ Why Choose AV Team'}
             </motion.a>
@@ -135,18 +135,18 @@ export default function Hero() {
 
         {/* Animated Counting Stats */}
         <Reveal i={4}>
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 border-t border-line pt-4">
+          <div className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 border-t border-line pt-4 gap-y-4">
             {t.stats.map(([num, label], idx) => (
               <div
                 key={label}
-                className={`py-5 pr-6 ${idx !== 0 ? 'md:border-l md:border-line md:pl-6' : ''}`}
+                className={`py-3 sm:py-5 pr-4 sm:pr-6 ${idx % 2 !== 0 ? 'border-l border-line pl-4 sm:pl-6' : ''} ${idx >= 2 ? 'md:border-l md:border-line md:pl-6' : ''}`}
               >
-                <div className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-foreground group">
+                <div className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground group">
                   <span className="text-[hsl(var(--av-accent))] text-glow">
                     <AnimatedCounter value={num} duration={2.2} />
                   </span>
                 </div>
-                <div className="mt-1.5 text-xs md:text-sm font-mono-tech text-faint uppercase tracking-wider">{label}</div>
+                <div className="mt-1 text-[11px] sm:text-xs md:text-sm font-mono-tech text-faint uppercase tracking-wider">{label}</div>
               </div>
             ))}
           </div>

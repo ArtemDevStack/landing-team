@@ -56,12 +56,12 @@ export default function FinalCta() {
             <p className="mt-7 text-dim text-base md:text-lg max-w-xl mx-auto leading-relaxed">{t.sub}</p>
           </Reveal>
           <Reveal i={2}>
-            <div className="mt-11 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-9 sm:mt-11 flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.button
                 onClick={() => openOrderModal()}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-10 py-5 text-base sm:text-lg hover:shadow-[0_0_56px_hsl(var(--av-accent-glow))] transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg hover:shadow-[0_0_56px_hsl(var(--av-accent-glow))] transition-all duration-300"
               >
                 {t.button}
                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
@@ -84,7 +84,7 @@ export default function FinalCta() {
 
       {/* Footer */}
       <footer className="border-t border-line bg-[hsl(var(--av-bg-panel)/0.4)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-14 grid md:grid-cols-[1.4fr_1fr_1fr] gap-12">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr] gap-8 sm:gap-10 md:gap-12">
           <div>
             <Logo />
             <p className="mt-5 text-xs text-dim max-w-xs leading-relaxed font-mono-tech">{f.tagline}</p>

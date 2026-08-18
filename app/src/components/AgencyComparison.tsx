@@ -80,10 +80,10 @@ export default function AgencyComparison() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionWrapperRef.current,
-          start: 'top top',
-          end: isMobile ? '+=60%' : '+=90%',
+          start: isMobile ? 'top 85%' : 'top top',
+          end: isMobile ? 'top 25%' : '+=90%',
           scrub: 1,
-          pin: true,
+          pin: !isMobile,
           anticipatePin: 1,
         },
       })
@@ -91,10 +91,10 @@ export default function AgencyComparison() {
       tl.fromTo(
         columnsBlockRef.current,
         {
-          scale: isMobile ? 0.65 : 0.45,
-          opacity: 0.1,
-          rotateX: 16,
-          y: isMobile ? 40 : 80,
+          scale: isMobile ? 0.95 : 0.45,
+          opacity: isMobile ? 0.6 : 0.1,
+          rotateX: isMobile ? 0 : 16,
+          y: isMobile ? 20 : 80,
           transformPerspective: 1200,
         },
         {
@@ -130,60 +130,106 @@ export default function AgencyComparison() {
 
         <div
           ref={columnsBlockRef}
-          className="mt-8 rounded-3xl border border-line bg-[hsl(var(--av-bg-panel)/0.85)] p-6 md:p-8 backdrop-blur-2xl shadow-2xl overflow-x-auto will-change-transform"
+          className="mt-8 rounded-3xl border border-line bg-[hsl(var(--av-bg-panel)/0.85)] p-4 sm:p-6 md:p-8 backdrop-blur-2xl shadow-2xl will-change-transform"
         >
-          <table className="w-full text-left border-collapse min-w-[700px]">
-            <thead>
-              <tr className="border-b border-line text-xs font-mono-tech uppercase">
-                <th className="py-4 px-4 text-dim w-1/4">
-                  {lang === 'ru' ? 'Критерий оценки' : 'Evaluation Criteria'}
-                </th>
-                <th className="py-4 px-4 text-faint w-1/4">
-                  {lang === 'ru' ? 'Фриланс / Инди' : 'Freelance / Individual'}
-                </th>
-                <th className="py-4 px-4 text-faint w-1/4">
-                  {lang === 'ru' ? 'Классическое агентство' : 'Traditional Agency'}
-                </th>
-                <th className="py-4 px-4 text-[hsl(var(--av-accent))] font-bold w-1/4 bg-[hsl(var(--av-accent-soft))] rounded-t-xl">
-                  {lang === 'ru' ? 'AV Studio' : 'AV Studio'}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-line text-xs md:text-sm">
-              {COMPARISONS.map((row, idx) => (
-                <tr key={idx} className="hover:bg-[hsl(var(--av-bg-raise)/0.5)] transition-colors">
-                  <td className="py-4 px-4 font-display font-bold text-foreground">
-                    {lang === 'ru' ? row.criterionRu : row.criterionEn}
-                  </td>
-                  <td className="py-4 px-4 text-dim">
-                    <div className="flex items-start gap-2">
-                      <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+          {/* Mobile Card View (<768px) */}
+          <div className="md:hidden space-y-4">
+            {COMPARISONS.map((row, idx) => (
+              <div key={idx} className="rounded-2xl border border-line bg-[hsl(var(--av-bg))] p-4 space-y-3">
+                <div className="font-display font-bold text-sm text-foreground border-b border-line pb-2">
+                  {lang === 'ru' ? row.criterionRu : row.criterionEn}
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <div className="p-2.5 rounded-xl border border-red-500/20 bg-red-500/5">
+                    <div className="font-mono-tech text-[10px] uppercase text-red-400 font-bold mb-1">
+                      {lang === 'ru' ? 'Фриланс / Инди:' : 'Freelance:'}
+                    </div>
+                    <div className="flex items-start gap-2 text-dim">
+                      <XCircle className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
                       <span>{lang === 'ru' ? row.freelanceRu : row.freelanceEn}</span>
                     </div>
-                  </td>
-                  <td className="py-4 px-4 text-dim">
-                    <div className="flex items-start gap-2">
-                      <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  </div>
+
+                  <div className="p-2.5 rounded-xl border border-amber-500/20 bg-amber-500/5">
+                    <div className="font-mono-tech text-[10px] uppercase text-amber-400 font-bold mb-1">
+                      {lang === 'ru' ? 'Агентство:' : 'Agency:'}
+                    </div>
+                    <div className="flex items-start gap-2 text-dim">
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
                       <span>{lang === 'ru' ? row.agencyRu : row.agencyEn}</span>
                     </div>
-                  </td>
-                  <td className="py-4 px-4 text-foreground font-medium bg-[hsl(var(--av-accent-soft)/0.5)]">
-                    <div className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-[hsl(var(--av-accent))] shrink-0 mt-0.5" />
-                      <span className="font-semibold">{lang === 'ru' ? row.avRu : row.avEn}</span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
 
-          <div className="mt-6 pt-4 border-t border-line flex items-center justify-between text-xs text-dim">
+                  <div className="p-3 rounded-xl border border-[hsl(var(--av-accent))] bg-[hsl(var(--av-accent-soft))] shadow-md">
+                    <div className="font-mono-tech text-[10px] uppercase text-[hsl(var(--av-accent))] font-bold mb-1">
+                      ⚡ AV Studio:
+                    </div>
+                    <div className="flex items-start gap-2 text-foreground font-semibold">
+                      <CheckCircle2 className="w-4 h-4 text-[hsl(var(--av-accent))] shrink-0 mt-0.5" />
+                      <span>{lang === 'ru' ? row.avRu : row.avEn}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table View (>=768px) */}
+          <div className="hidden md:block overflow-x-auto custom-scrollbar-x">
+            <table className="w-full text-left border-collapse min-w-[700px]">
+              <thead>
+                <tr className="border-b border-line text-xs font-mono-tech uppercase">
+                  <th className="py-4 px-4 text-dim w-1/4">
+                    {lang === 'ru' ? 'Критерий оценки' : 'Evaluation Criteria'}
+                  </th>
+                  <th className="py-4 px-4 text-faint w-1/4">
+                    {lang === 'ru' ? 'Фриланс / Инди' : 'Freelance / Individual'}
+                  </th>
+                  <th className="py-4 px-4 text-faint w-1/4">
+                    {lang === 'ru' ? 'Классическое агентство' : 'Traditional Agency'}
+                  </th>
+                  <th className="py-4 px-4 text-[hsl(var(--av-accent))] font-bold w-1/4 bg-[hsl(var(--av-accent-soft))] rounded-t-xl">
+                    {lang === 'ru' ? 'AV Studio' : 'AV Studio'}
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line text-xs md:text-sm">
+                {COMPARISONS.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-[hsl(var(--av-bg-raise)/0.5)] transition-colors">
+                    <td className="py-4 px-4 font-display font-bold text-foreground">
+                      {lang === 'ru' ? row.criterionRu : row.criterionEn}
+                    </td>
+                    <td className="py-4 px-4 text-dim">
+                      <div className="flex items-start gap-2">
+                        <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                        <span>{lang === 'ru' ? row.freelanceRu : row.freelanceEn}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-dim">
+                      <div className="flex items-start gap-2">
+                        <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                        <span>{lang === 'ru' ? row.agencyRu : row.agencyEn}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-foreground font-medium bg-[hsl(var(--av-accent-soft)/0.5)]">
+                      <div className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[hsl(var(--av-accent))] shrink-0 mt-0.5" />
+                        <span className="font-semibold">{lang === 'ru' ? row.avRu : row.avEn}</span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-xs text-dim">
             <span className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>{lang === 'ru' ? 'NDA подписывается до первого обсуждения проекта' : 'NDA signed prior to project discussion'}</span>
             </span>
-            <span className="font-mono-tech text-[hsl(var(--av-accent))]">100% CODE OWNERSHIP GUARANTEED</span>
+            <span className="font-mono-tech text-[hsl(var(--av-accent))] font-bold">100% CODE OWNERSHIP GUARANTEED</span>
           </div>
         </div>
       </Section>

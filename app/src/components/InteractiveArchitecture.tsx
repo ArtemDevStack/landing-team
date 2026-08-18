@@ -393,13 +393,13 @@ export default function InteractiveArchitecture() {
               </button>
 
               <span className="text-[10px] font-mono-tech text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">
-                {activeNodeIds.length} Active Nodes
+                {activeNodeIds.length} {lang === 'ru' ? 'активных узлов' : 'Active Nodes'}
               </span>
             </div>
           </div>
 
           {/* Module Selector Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 pt-2">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 pt-2">
             {NODES.map((node) => {
               const isActive = activeNodeIds.includes(node.id)
               const isSelected = selectedNodeId === node.id
@@ -409,7 +409,7 @@ export default function InteractiveArchitecture() {
                 <button
                   key={node.id}
                   onClick={() => toggleNode(node.id)}
-                  className={`p-3 rounded-xl border text-left transition-all duration-300 relative group flex items-center justify-between text-xs ${
+                  className={`p-2.5 sm:p-3 rounded-xl border text-left transition-all duration-300 relative group flex items-center justify-between text-xs ${
                     isSelected
                       ? 'border-[hsl(var(--av-accent))] bg-[hsl(var(--av-accent-soft))] text-foreground font-bold shadow-md scale-[1.02]'
                       : isActive
@@ -428,12 +428,14 @@ export default function InteractiveArchitecture() {
           </div>
 
           {/* Real Live Mermaid Flowchart Render Container */}
-          <div className="rounded-2xl border border-line bg-[hsl(var(--av-bg))] p-4 relative overflow-hidden shadow-inner">
-            <MermaidDiagram chart={mermaidChartCode} />
+          <div className="rounded-2xl border border-line bg-[hsl(var(--av-bg))] p-4 relative overflow-x-auto custom-scrollbar-x shadow-inner">
+            <div className="min-w-[650px] sm:min-w-0">
+              <MermaidDiagram chart={mermaidChartCode} />
+            </div>
           </div>
 
           {/* Node Inspector Detail Panel */}
-          <div className="p-6 rounded-2xl border border-[hsl(var(--av-accent)/0.4)] bg-[hsl(var(--av-bg-panel))] shadow-xl space-y-4">
+          <div className="p-4 sm:p-6 rounded-2xl border border-[hsl(var(--av-accent)/0.4)] bg-[hsl(var(--av-bg-panel))] shadow-xl space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[hsl(var(--av-accent-soft))] border border-[hsl(var(--av-accent))] flex items-center justify-center text-[hsl(var(--av-accent))]">
@@ -455,7 +457,7 @@ export default function InteractiveArchitecture() {
                     `Архитектура (${lang === 'ru' ? selectedNode.nameRu : selectedNode.nameEn}): Включен модуль ${lang === 'ru' ? selectedNode.nameRu : selectedNode.nameEn}`
                   )
                 }
-                className="inline-flex items-center gap-2 rounded-xl bg-[hsl(var(--av-accent))] text-black font-bold px-5 py-2.5 text-xs font-mono-tech uppercase hover:brightness-110 transition-all shadow-md cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[hsl(var(--av-accent))] text-black font-bold px-5 py-2.5 text-xs font-mono-tech uppercase hover:brightness-110 transition-all shadow-md cursor-pointer w-full sm:w-auto"
               >
                 <span>{lang === 'ru' ? '+ Включить в ТЗ →' : '+ Add to Spec →'}</span>
               </button>
@@ -465,7 +467,7 @@ export default function InteractiveArchitecture() {
               {lang === 'ru' ? selectedNode.descRu : selectedNode.descEn}
             </p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs font-mono-tech">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 text-xs font-mono-tech">
               <div className="bg-[hsl(var(--av-bg))] p-3 rounded-xl border border-line">
                 <span className="text-faint block text-[10px] uppercase">Протокол передачи:</span>
                 <span className="font-bold text-[hsl(var(--av-accent))]">{selectedNode.protocol}</span>
@@ -475,8 +477,8 @@ export default function InteractiveArchitecture() {
                 <span className="font-bold text-emerald-400">{selectedNode.latency}</span>
               </div>
               <div className="bg-[hsl(var(--av-bg))] p-3 rounded-xl border border-line">
-                <span className="text-faint block text-[10px] uppercase">Изоляция прав:</span>
-                <span className="font-bold text-foreground">RBAC / Isolated</span>
+                <span className="text-faint block text-[10px] uppercase">{lang === 'ru' ? 'Изоляция прав:' : 'Rights Isolation:'}</span>
+                <span className="font-bold text-foreground">{lang === 'ru' ? 'RBAC / Изолировано' : 'RBAC / Isolated'}</span>
               </div>
               <div className="bg-[hsl(var(--av-bg))] p-3 rounded-xl border border-line">
                 <span className="text-faint block text-[10px] uppercase">Отказоустойчивость:</span>

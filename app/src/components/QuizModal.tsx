@@ -143,13 +143,44 @@ export default function QuizModal() {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false)
+    }
+    if (isOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      document.body.style.overflow = 'hidden'
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`
+      }
+      if (typeof window !== 'undefined' && (window as any).lenis) {
+        ;(window as any).lenis.stop()
+      }
+      window.addEventListener('keydown', handleKeyDown)
+    } else {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+      if (typeof window !== 'undefined' && (window as any).lenis) {
+        ;(window as any).lenis.start()
+      }
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+      if (typeof window !== 'undefined' && (window as any).lenis) {
+        ;(window as any).lenis.start()
+      }
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
+
   return (
     <>
       {/* Quiz Launcher Badge Button */}
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-6 z-40 flex items-center gap-2 rounded-full border border-[hsl(var(--av-accent))] bg-[hsl(var(--av-bg-panel)/0.95)] px-4 py-2 text-xs font-mono-tech uppercase font-semibold text-[hsl(var(--av-accent))] shadow-[0_0_24px_hsl(var(--av-accent-glow))] hover:scale-105 transition-all duration-300 backdrop-blur-md"
+        className="fixed bottom-20 right-4 sm:right-6 z-40 flex items-center gap-2 rounded-full border border-[hsl(var(--av-accent))] bg-[hsl(var(--av-bg-panel)/0.95)] px-3 sm:px-4 py-2 text-[11px] sm:text-xs font-mono-tech uppercase font-semibold text-[hsl(var(--av-accent))] shadow-[0_0_24px_hsl(var(--av-accent-glow))] hover:scale-105 transition-all duration-300 backdrop-blur-md"
       >
         <span className="w-2 h-2 rounded-full bg-[hsl(var(--av-accent))] anim-pulse-node" />
         <span>{lang === 'ru' ? '⚡ Подобрать стек за 30с' : '⚡ 30s Stack Quiz'}</span>
@@ -160,7 +191,7 @@ export default function QuizModal() {
         createPortal(
           <AnimatePresence>
           {isOpen && (
-            <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6 overflow-x-hidden overflow-y-auto">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -173,7 +204,8 @@ export default function QuizModal() {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-xl rounded-2xl border border-[hsl(var(--av-line-strong))] bg-[hsl(var(--av-bg-raise))] p-6 sm:p-8 shadow-2xl overflow-hidden z-10 my-auto"
+                data-lenis-prevent
+                className="relative w-full max-w-xl rounded-2xl border border-[hsl(var(--av-line-strong))] bg-[hsl(var(--av-bg-raise))] p-5 sm:p-8 shadow-2xl overflow-x-hidden overflow-y-auto max-h-[92vh] custom-scrollbar-y overscroll-contain z-10 my-auto"
               >
                 <button
                   onClick={() => setIsOpen(false)}

@@ -16,8 +16,10 @@ export default function Process() {
     offset: ['start start', 'end end'],
   })
 
-  // Map 0 -> 1 vertical scroll into horizontal translation (-64% width offset)
-  const x = useTransform(scrollYProgress, [0.05, 0.95], ['0%', '-64%'])
+  // Dynamic horizontal translation: -83% on mobile so all 6 steps are reachable, -64% on desktop
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+  const xEnd = isMobile ? '-83%' : '-64%'
+  const x = useTransform(scrollYProgress, [0.05, 0.95], ['0%', xEnd])
   const progressWidth = useTransform(scrollYProgress, [0.05, 0.95], ['0%', '100%'])
 
   const DELIVERABLES = [
@@ -49,7 +51,7 @@ export default function Process() {
 
           {/* Horizontal Scrolling Card Track (Strictly positioned ABOVE progress bar with z-20) */}
           <div className="my-auto overflow-hidden py-4 relative z-20">
-            <motion.div style={{ x }} className="flex gap-6 px-6 md:px-10 min-w-max">
+            <motion.div style={{ x }} className="flex gap-4 sm:gap-6 px-4 sm:px-6 md:px-10 min-w-max">
               {t.steps.map(([name, desc, dur], idx) => {
                 const deliv = DELIVERABLES[idx] || DELIVERABLES[0]
                 const points = lang === 'ru' ? deliv.ru : deliv.en
@@ -57,7 +59,7 @@ export default function Process() {
                 return (
                   <div
                     key={name}
-                    className="group relative w-[340px] sm:w-[420px] shrink-0 rounded-3xl border border-line bg-[hsl(var(--av-bg-panel)/0.85)] p-6 sm:p-8 backdrop-blur-2xl flex flex-col justify-between hover:border-[hsl(var(--av-accent)/0.6)] hover:shadow-2xl hover:shadow-[hsl(var(--av-accent-glow))] transition-all duration-500"
+                    className="group relative w-[285px] xs:w-[340px] sm:w-[420px] shrink-0 rounded-3xl border border-line bg-[hsl(var(--av-bg-panel)/0.85)] p-5 xs:p-6 sm:p-8 backdrop-blur-2xl flex flex-col justify-between hover:border-[hsl(var(--av-accent)/0.6)] hover:shadow-2xl hover:shadow-[hsl(var(--av-accent-glow))] transition-all duration-500"
                   >
                     <div>
                       {/* Step Number & Duration Header */}

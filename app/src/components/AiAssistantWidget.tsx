@@ -199,7 +199,7 @@ export default function AiAssistantWidget() {
       : ['What AI systems do you build?', 'MVP timelines?', 'CRM pricing?']
 
   return (
-    <div ref={widgetRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-auto">
+    <div ref={widgetRef} className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end pointer-events-auto">
       <AnimatePresence mode="wait">
         {isOpen ? (
           <motion.div
@@ -210,7 +210,7 @@ export default function AiAssistantWidget() {
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             onWheel={(e) => e.stopPropagation()}
             onTouchMove={(e) => e.stopPropagation()}
-            className="w-[92vw] sm:w-[380px] h-[520px] rounded-2xl border border-[hsl(var(--av-line-strong))] bg-[hsl(var(--av-bg-raise))] shadow-2xl flex flex-col overflow-hidden"
+            className="w-[calc(100vw-32px)] xs:w-[360px] sm:w-[380px] h-[78vh] max-h-[520px] rounded-2xl border border-[hsl(var(--av-line-strong))] bg-[hsl(var(--av-bg-raise))] shadow-2xl flex flex-col overflow-x-hidden overflow-y-hidden"
           >
             {/* Header */}
             <div className="px-4 py-3.5 border-b border-line bg-[hsl(var(--av-bg-panel))] flex items-center justify-between shrink-0">
@@ -254,7 +254,7 @@ export default function AiAssistantWidget() {
               data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
-              className="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs custom-scrollbar-y overscroll-contain"
+              className="flex-1 overflow-x-hidden overflow-y-auto p-4 space-y-3.5 text-xs custom-scrollbar-y overscroll-contain"
             >
               {messages.map((m) => (
                 <div

@@ -180,16 +180,42 @@ export default function WhyUsSpeedValue() {
         </div>
 
         {/* Direct Comparison Table */}
-        <div className="mt-14 rounded-3xl border border-line bg-[hsl(var(--av-bg-raise)/0.4)] p-6 md:p-10 overflow-hidden shadow-2xl">
+        <div className="mt-14 rounded-3xl border border-line bg-[hsl(var(--av-bg-raise)/0.4)] p-4 sm:p-6 md:p-10 shadow-2xl">
           <div className="font-mono-tech text-xs uppercase tracking-widest text-[hsl(var(--av-accent))] mb-2 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[hsl(var(--av-accent))]" />
             {lang === 'ru' ? 'Прямое сравнение' : 'Direct Comparison'}
           </div>
-          <h3 className="font-display text-2xl md:text-3xl font-extrabold tracking-tight mb-8">
+          <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight mb-6 sm:mb-8">
             {lang === 'ru' ? 'AV Team против обычных веб-студий' : 'AV Team vs Traditional Agencies'}
           </h3>
 
-          <div className="overflow-x-auto custom-scrollbar-x">
+          {/* Mobile Cards (<640px) */}
+          <div className="sm:hidden space-y-3">
+            {COMPARISON.map((row) => (
+              <div key={row.featureRu} className="rounded-2xl border border-line bg-[hsl(var(--av-bg))] p-4 space-y-2">
+                <div className="font-display font-bold text-xs text-foreground border-b border-line pb-1.5">
+                  {lang === 'ru' ? row.featureRu : row.featureEn}
+                </div>
+                <div className="text-xs space-y-1.5">
+                  <div className="p-2 rounded-lg bg-rose-500/10 text-rose-300">
+                    <span className="font-mono-tech text-[10px] text-rose-400 block font-bold">
+                      {lang === 'ru' ? 'Обычные Студии:' : 'Traditional Agencies:'}
+                    </span>
+                    {lang === 'ru' ? row.agencyRu : row.agencyEn}
+                  </div>
+                  <div className="p-2 rounded-lg bg-[hsl(var(--av-accent-soft))] text-[hsl(var(--av-accent))] font-bold">
+                    <span className="font-mono-tech text-[10px] block text-[hsl(var(--av-accent))]">
+                      ⚡ AV Team:
+                    </span>
+                    {lang === 'ru' ? row.avRu : row.avEn}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table (>=640px) */}
+          <div className="hidden sm:block overflow-x-auto custom-scrollbar-x">
             <table className="w-full text-left border-collapse min-w-[600px]">
               <thead>
                 <tr className="border-b border-line text-xs font-mono-tech uppercase text-faint">

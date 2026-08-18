@@ -241,8 +241,8 @@ export default function RoleSwitcher() {
             </div>
 
             <div className="mt-6 pt-4 border-t border-line flex items-center justify-between text-[11px] font-mono-tech text-faint">
-              <span>AV TECHNOLOGY GUARANTEE</span>
-              <span className="text-emerald-400 font-semibold">100% SLA COMPLIANT</span>
+              <span>{lang === 'ru' ? 'ГАРАНТИЯ ТЕХНОЛОГИЙ AV' : 'AV TECHNOLOGY GUARANTEE'}</span>
+              <span className="text-emerald-400 font-semibold">{lang === 'ru' ? '100% СООТВЕТСТВИЕ SLA' : '100% SLA COMPLIANT'}</span>
             </div>
           </div>
         </motion.div>
