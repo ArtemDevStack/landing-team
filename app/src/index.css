@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* AV Design System — "Blueprint Dark" */
+    --av-bg: 220 14% 4%;
+    --av-bg-raise: 220 12% 6.5%;
+    --av-bg-panel: 220 11% 8%;
+    --av-line: 220 10% 14%;
+    --av-line-strong: 220 9% 22%;
+    --av-text: 40 12% 94%;
+    --av-text-dim: 220 8% 62%;
+    --av-text-faint: 220 7% 42%;
+    /* Amber signal accent */
+    --av-accent: 38 96% 56%;
+    --av-accent-soft: 38 96% 56% / 0.12;
+    --av-accent-glow: 38 100% 60% / 0.35;
+    /* Cool steel secondary */
+    --av-steel: 210 16% 72%;
+
+    --background: var(--av-bg);
+    --foreground: var(--av-text);
+    --card: var(--av-bg-panel);
+    --card-foreground: var(--av-text);
+    --popover: var(--av-bg-panel);
+    --popover-foreground: var(--av-text);
+    --primary: var(--av-accent);
+    --primary-foreground: 220 14% 6%;
+    --secondary: var(--av-bg-panel);
+    --secondary-foreground: var(--av-text);
+    --muted: var(--av-bg-raise);
+    --muted-foreground: var(--av-text-dim);
+    --accent: var(--av-bg-raise);
+    --accent-foreground: var(--av-text);
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: var(--av-line);
+    --input: var(--av-line);
+    --ring: var(--av-accent);
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv05';
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: hsl(var(--av-accent) / 0.9);
+    color: hsl(220 14% 6%);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--av-bg));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--av-line-strong));
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--av-accent) / 0.5);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Manrope', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+  }
+  .font-mono-tech {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  .text-dim {
+    color: hsl(var(--av-text-dim));
+  }
+  .text-faint {
+    color: hsl(var(--av-text-faint));
+  }
+  .text-accent {
+    color: hsl(var(--av-accent));
+  }
+  .bg-raise {
+    background: hsl(var(--av-bg-raise));
+  }
+  .bg-panel {
+    background: hsl(var(--av-bg-panel));
+  }
+  .border-line {
+    border-color: hsl(var(--av-line));
+  }
+  .border-line-strong {
+    border-color: hsl(var(--av-line-strong));
+  }
+  /* Engineering blueprint grid */
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(var(--av-line) / 0.55) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--av-line) / 0.55) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .bg-grid-fine {
+    background-image:
+      linear-gradient(hsl(var(--av-line) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--av-line) / 0.3) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .glow-accent {
+    box-shadow: 0 0 24px hsl(var(--av-accent-glow)), 0 0 64px hsl(var(--av-accent-glow));
+  }
+  .text-glow {
+    text-shadow: 0 0 32px hsl(var(--av-accent-glow));
+  }
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+  /* Outlined display text */
+  .text-stroke {
+    -webkit-text-stroke: 1px hsl(var(--av-line-strong));
+    color: transparent;
+  }
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+@keyframes pulse-node {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.anim-dash {
+  animation: dash-flow 1.2s linear infinite;
+}
+.anim-pulse-node {
+  animation: pulse-node 2.4s ease-in-out infinite;
+}
+.anim-float {
+  animation: float-slow 7s ease-in-out infinite;
+}
+.anim-marquee {
+  animation: marquee-x 36s linear infinite;
+}
