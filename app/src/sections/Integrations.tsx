@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Reveal, Section, SectionHead, Rail } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'

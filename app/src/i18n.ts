@@ -199,7 +199,7 @@ export const ui = {
         ['Направления', ['Web & E-commerce', 'CRM & Business Systems', 'SaaS & Product', 'AI & Enterprise', 'Growth & Marketing']],
         ['Компания', ['Кейсы', 'Процесс', 'Архитектура', 'Контакты']],
       ],
-      rights: '© 2026 AV — Digital Agency & Technology Studio',
+      rights: '© 2026 AV Team — Digital Agency & Technology Studio',
     },
   },
   en: {
@@ -391,7 +391,7 @@ export const ui = {
         ['Directions', ['Web & E-commerce', 'CRM & Business Systems', 'SaaS & Product', 'AI & Enterprise', 'Growth & Marketing']],
         ['Company', ['Cases', 'Process', 'Architecture', 'Contacts']],
       ],
-      rights: '© 2026 AV — Digital Agency & Technology Studio',
+      rights: '© 2026 AV Team — Digital Agency & Technology Studio',
     },
   },
 } as const

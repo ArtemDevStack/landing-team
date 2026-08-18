@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 
@@ -32,7 +34,7 @@ export function useSmoothScroll() {
           e.preventDefault()
           lenis.scrollTo(0)
         } else if (href.length > 1) {
-          const targetEl = document.querySelector(href)
+          const targetEl = document.querySelector(href) as HTMLElement | null
           if (targetEl) {
             e.preventDefault()
             lenis.scrollTo(targetEl, { offset: -40 })

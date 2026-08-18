@@ -1,8 +1,12 @@
+'use client'
+
 import { Reveal, Section, Rail } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'
+import { useOrderModal } from '../context/ModalContext'
 
 export default function Enterprise() {
   const { lang } = useLang()
+  const { openOrderModal } = useOrderModal()
   const t = ui[lang].enterprise
 
   return (
@@ -31,6 +35,16 @@ export default function Enterprise() {
             </Reveal>
             <Reveal i={2}>
               <p className="mt-6 max-w-2xl text-dim text-base md:text-lg leading-relaxed">{t.sub}</p>
+            </Reveal>
+            <Reveal i={3}>
+              <div className="mt-8">
+                <button
+                  onClick={() => openOrderModal('Enterprise Engineering')}
+                  className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--av-accent))] text-black text-sm font-semibold px-6 py-3 hover:shadow-[0_0_28px_hsl(var(--av-accent-glow))] transition-shadow"
+                >
+                  {lang === 'ru' ? 'Обсудить Enterprise-проект' : 'Discuss Enterprise Project'} →
+                </button>
+              </div>
             </Reveal>
 
             <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[hsl(var(--av-line))] border border-line rounded-2xl overflow-hidden">

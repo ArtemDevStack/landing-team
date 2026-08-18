@@ -1,7 +1,10 @@
+'use client'
+
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Reveal } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'
+import { useOrderModal } from '../context/ModalContext'
 
 const PIPELINE = {
   ru: [
@@ -126,6 +129,7 @@ function Pipeline() {
 
 export default function Hero() {
   const { lang } = useLang()
+  const { openOrderModal } = useOrderModal()
   const t = ui[lang].hero
 
   return (
@@ -172,8 +176,8 @@ export default function Hero() {
 
         <Reveal i={3}>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <motion.a
-              href="#contact"
+            <motion.button
+              onClick={() => openOrderModal()}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-8 py-4 text-base hover:shadow-[0_0_48px_hsl(var(--av-accent-glow))] transition-shadow duration-300"
@@ -182,7 +186,7 @@ export default function Hero() {
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 13 L13 3 M6 3 h7 v7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </motion.a>
+            </motion.button>
             <motion.a
               href="#cases"
               whileHover={{ scale: 1.03 }}

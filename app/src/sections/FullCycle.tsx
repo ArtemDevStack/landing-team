@@ -1,8 +1,12 @@
+'use client'
+
 import { Reveal, Section, SectionHead, Rail } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'
+import { useOrderModal } from '../context/ModalContext'
 
 export default function FullCycle() {
   const { lang } = useLang()
+  const { openOrderModal } = useOrderModal()
   const t = ui[lang].cycle
 
   return (
@@ -30,7 +34,7 @@ export default function FullCycle() {
               </div>
             </Reveal>
           ))}
-          {/* Filler cell with loop-back arrow */}
+          {/* Filler cell with CTA */}
           <Reveal i={3} className="h-full">
             <div className="relative h-full bg-[hsl(var(--av-bg-raise)/0.4)] p-7 md:p-8 flex flex-col min-h-[190px] items-start justify-between">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" className="anim-float">
@@ -42,9 +46,17 @@ export default function FullCycle() {
                 />
                 <path d="M21 3.5 v5 h-5" stroke="hsl(var(--av-accent))" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
               </svg>
-              <p className="font-mono-tech text-[11px] tracking-[0.18em] uppercase text-faint leading-relaxed">
-                {lang === 'ru' ? 'Цикл не заканчивается — продукт растёт' : 'The loop never ends — the product keeps growing'}
-              </p>
+              <div>
+                <p className="font-mono-tech text-[11px] tracking-[0.18em] uppercase text-faint leading-relaxed">
+                  {lang === 'ru' ? 'Цикл не заканчивается — продукт растёт' : 'The loop never ends — the product keeps growing'}
+                </p>
+                <button
+                  onClick={() => openOrderModal('Full Cycle')}
+                  className="mt-3 font-mono-tech text-xs text-[hsl(var(--av-accent))] hover:underline flex items-center gap-1"
+                >
+                  {lang === 'ru' ? 'Запустить цикл →' : 'Start Full Cycle →'}
+                </button>
+              </div>
             </div>
           </Reveal>
         </div>

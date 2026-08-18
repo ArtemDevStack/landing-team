@@ -1,3 +1,5 @@
+'use client'
+
 import { motion, type Variants } from 'framer-motion'
 import type { ReactNode } from 'react'
 
@@ -76,16 +78,57 @@ export function Rail({ left, right }: { left: string; right: string }) {
   )
 }
 
-/* ---------- AV logo mark ---------- */
-export function Logo({ size = 34 }: { size?: number }) {
+/* ---------- AVT Monogram Logo ---------- */
+export function Logo({ size = 40 }: { size?: number }) {
   return (
-    <div className="flex items-center gap-2.5 select-none">
-      <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden>
-        <rect x="0.5" y="0.5" width="35" height="35" rx="9" stroke="hsl(var(--av-line-strong))" />
-        <path d="M9 26 L18 9 L27 26" stroke="hsl(var(--av-accent))" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <path d="M13.2 20.4 H22.8" stroke="hsl(var(--av-text))" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-      <span className="font-display font-extrabold text-xl tracking-tight">AV</span>
+    <div className="flex items-center select-none cursor-pointer group" aria-label="AVT Logo">
+      <div
+        style={{ width: size, height: size }}
+        className="relative flex items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--av-bg-panel))] to-[hsl(var(--av-bg-raise))] border border-[hsl(var(--av-accent)/0.65)] shadow-[0_0_22px_hsl(var(--av-accent-glow))] group-hover:border-[hsl(var(--av-accent))] group-hover:shadow-[0_0_32px_hsl(var(--av-accent-glow))] transition-all duration-300"
+      >
+        <svg width={size - 10} height={size - 10} viewBox="0 0 36 36" fill="none">
+          <defs>
+            <linearGradient id="avtLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="hsl(var(--av-accent))" />
+              <stop offset="100%" stopColor="hsl(42 100% 68%)" />
+            </linearGradient>
+          </defs>
+          {/* Top T-Bar */}
+          <path
+            d="M 6 8 H 30"
+            stroke="url(#avtLogoGrad)"
+            strokeWidth="3.2"
+            strokeLinecap="round"
+          />
+          {/* Central T stem */}
+          <path
+            d="M 18 8 V 28"
+            stroke="url(#avtLogoGrad)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          {/* A & V Angled Wings */}
+          <path
+            d="M 7 28 L 18 8 L 29 28"
+            stroke="url(#avtLogoGrad)"
+            strokeWidth="2.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* A Crossbar */}
+          <path
+            d="M 11 19 H 25"
+            stroke="hsl(var(--av-text))"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          {/* Node Points */}
+          <circle cx="18" cy="8" r="2.2" fill="hsl(var(--av-accent))" />
+          <circle cx="6" cy="8" r="2" fill="hsl(var(--av-accent))" />
+          <circle cx="30" cy="8" r="2" fill="hsl(var(--av-accent))" />
+          <circle cx="18" cy="28" r="2" fill="hsl(var(--av-accent))" />
+        </svg>
+      </div>
     </div>
   )
 }

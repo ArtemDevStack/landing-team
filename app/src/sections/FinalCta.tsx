@@ -1,6 +1,10 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { Logo, Reveal } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'
+import { useOrderModal } from '../context/ModalContext'
+import { DEFAULT_CONTACT_EMAIL } from '../lib/notifications'
 
 const TICKER = [
   'WEB', 'E-COMMERCE', 'CRM', 'SAAS', 'AI AGENTS', 'RAG', 'INTEGRATIONS',
@@ -25,8 +29,10 @@ function Marquee() {
 
 export default function FinalCta() {
   const { lang } = useLang()
+  const { openOrderModal } = useOrderModal()
   const t = ui[lang].cta
   const f = ui[lang].footer
+  const contactMail = DEFAULT_CONTACT_EMAIL || t.mail
 
   return (
     <>
@@ -51,8 +57,8 @@ export default function FinalCta() {
           </Reveal>
           <Reveal i={2}>
             <div className="mt-11 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.a
-                href={`mailto:${t.mail}`}
+              <motion.button
+                onClick={() => openOrderModal()}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-10 py-5 text-lg hover:shadow-[0_0_56px_hsl(var(--av-accent-glow))] transition-shadow duration-300"
@@ -61,12 +67,12 @@ export default function FinalCta() {
                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
                   <path d="M3 13 L13 3 M6 3 h7 v7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </motion.a>
+              </motion.button>
               <a
-                href={`mailto:${t.mail}`}
+                href={`mailto:${contactMail}`}
                 className="font-mono-tech text-sm text-dim hover:text-accent transition-colors duration-300 border-b border-dashed border-[hsl(var(--av-line-strong))] hover:border-[hsl(var(--av-accent))] pb-0.5"
               >
-                {t.mail}
+                {contactMail}
               </a>
             </div>
           </Reveal>
@@ -82,6 +88,10 @@ export default function FinalCta() {
           <div>
             <Logo />
             <p className="mt-5 text-dim max-w-xs leading-relaxed">{f.tagline}</p>
+            <div className="mt-4 flex flex-col gap-1 text-xs font-mono-tech text-dim">
+              <span>Email: <a href={`mailto:${contactMail}`} className="text-accent hover:underline">{contactMail}</a></span>
+              <span>Telegram: <a href="https://t.me/av_digital_studio" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@av_digital_studio</a></span>
+            </div>
           </div>
           {f.cols.map(([title, links], colIdx) => (
             <div key={title}>

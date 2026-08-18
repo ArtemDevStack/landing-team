@@ -1,5 +1,8 @@
+'use client'
+
 import { Reveal, Section, SectionHead, Rail } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'
+import { useOrderModal } from '../context/ModalContext'
 
 const ICONS = [
   // Web
@@ -18,6 +21,7 @@ const ICONS = [
 
 export default function Services() {
   const { lang } = useLang()
+  const { openOrderModal } = useOrderModal()
   const t = ui[lang].services
 
   return (
@@ -29,34 +33,53 @@ export default function Services() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {t.items.map((s, idx) => (
             <Reveal key={s.title} i={idx % 3} className="h-full">
-              <div className="group relative h-full rounded-3xl border border-line bg-[hsl(var(--av-bg-raise)/0.45)] p-8 md:p-9 flex flex-col overflow-hidden hover:border-[hsl(var(--av-accent)/0.45)] hover:-translate-y-1.5 transition-all duration-500">
+              <div
+                onClick={() => openOrderModal(s.title)}
+                className="group relative h-full cursor-pointer rounded-3xl border border-line bg-[hsl(var(--av-bg-raise)/0.45)] p-8 md:p-9 flex flex-col justify-between overflow-hidden hover:border-[hsl(var(--av-accent)/0.6)] hover:-translate-y-1.5 transition-all duration-500"
+              >
                 <span
-                  className="pointer-events-none absolute -top-24 -right-24 w-56 h-56 rounded-full blur-[80px] opacity-0 group-hover:opacity-[0.14] transition-opacity duration-700"
+                  className="pointer-events-none absolute -top-24 -right-24 w-56 h-56 rounded-full blur-[80px] opacity-0 group-hover:opacity-[0.18] transition-opacity duration-700"
                   style={{ background: 'hsl(var(--av-accent))' }}
                   aria-hidden
                 />
-                <div className="flex items-start justify-between">
-                  <svg
-                    width="34" height="34" viewBox="0 0 32 32" fill="none"
-                    stroke="hsl(var(--av-accent))" strokeWidth="1.6"
-                    className="opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                  >
-                    {ICONS[idx]}
-                  </svg>
-                  <span className="font-mono-tech text-xs text-faint">{String(idx + 1).padStart(2, '0')}</span>
+                <div>
+                  <div className="flex items-start justify-between">
+                    <svg
+                      width="34" height="34" viewBox="0 0 32 32" fill="none"
+                      stroke="hsl(var(--av-accent))" strokeWidth="1.6"
+                      className="opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                    >
+                      {ICONS[idx]}
+                    </svg>
+                    <span className="font-mono-tech text-xs text-faint">{String(idx + 1).padStart(2, '0')}</span>
+                  </div>
+
+                  <h3 className="mt-8 font-display text-2xl font-bold tracking-tight">{s.title}</h3>
+                  <p className="mt-3 text-sm text-dim leading-relaxed">{s.desc}</p>
+
+                  <ul className="mt-6 pt-6 border-t border-line flex flex-col gap-2.5">
+                    {s.points.map((p) => (
+                      <li key={p} className="flex items-center gap-3 text-sm text-faint group-hover:text-dim transition-colors duration-500">
+                        <span className="w-1 h-1 rounded-full bg-[hsl(var(--av-accent))] shrink-0" />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                <h3 className="mt-8 font-display text-2xl font-bold tracking-tight">{s.title}</h3>
-                <p className="mt-3 text-sm text-dim leading-relaxed">{s.desc}</p>
-
-                <ul className="mt-6 pt-6 border-t border-line flex flex-col gap-2.5">
-                  {s.points.map((p) => (
-                    <li key={p} className="flex items-center gap-3 text-sm text-faint group-hover:text-dim transition-colors duration-500">
-                      <span className="w-1 h-1 rounded-full bg-[hsl(var(--av-accent))] shrink-0" />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-8 pt-4 border-t border-line flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      openOrderModal(s.title)
+                    }}
+                    className="w-full flex items-center justify-between rounded-full bg-[hsl(var(--av-accent-soft))] text-[hsl(var(--av-accent))] group-hover:bg-[hsl(var(--av-accent))] group-hover:text-black px-5 py-2.5 text-xs font-mono-tech uppercase font-semibold transition-all duration-300 shadow-[0_0_16px_hsl(var(--av-accent-glow))]"
+                  >
+                    <span>{lang === 'ru' ? 'Заказать направление' : 'Order Service'}</span>
+                    <span>→</span>
+                  </button>
+                </div>
               </div>
             </Reveal>
           ))}

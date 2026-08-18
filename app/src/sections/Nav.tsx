@@ -1,10 +1,14 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Logo } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'
+import { useOrderModal } from '../context/ModalContext'
 
 export default function Nav() {
   const { lang, setLang } = useLang()
+  const { openOrderModal } = useOrderModal()
   const t = ui[lang].nav
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -26,7 +30,7 @@ export default function Nav() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-40 transition-all duration-500 ${
         scrolled ? 'backdrop-blur-xl bg-[hsl(var(--av-bg)/0.82)] border-b border-line' : 'bg-transparent'
       }`}
     >
@@ -63,15 +67,15 @@ export default function Nav() {
             ))}
           </div>
 
-          <a
-            href="#contact"
+          <button
+            onClick={() => openOrderModal()}
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-[hsl(var(--av-accent))] text-black text-sm font-semibold px-5 py-2.5 hover:shadow-[0_0_28px_hsl(var(--av-accent-glow))] transition-shadow duration-300"
           >
             {t.cta}
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M3 11 L11 3 M5 3 h6 v6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </button>
 
           {/* Mobile burger */}
           <button
@@ -105,13 +109,15 @@ export default function Nav() {
                   {label}
                 </a>
               ))}
-              <a
-                href="#contact"
-                onClick={() => setOpen(false)}
+              <button
+                onClick={() => {
+                  setOpen(false)
+                  openOrderModal()
+                }}
                 className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-[hsl(var(--av-accent))] text-black font-semibold px-6 py-3"
               >
                 {t.cta}
-              </a>
+              </button>
             </div>
           </motion.nav>
         )}
