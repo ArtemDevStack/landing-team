@@ -61,7 +61,7 @@ export default function FinalCta() {
                 onClick={() => openOrderModal()}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-10 py-5 text-lg hover:shadow-[0_0_56px_hsl(var(--av-accent-glow))] transition-shadow duration-300"
+                className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-10 py-5 text-base sm:text-lg hover:shadow-[0_0_56px_hsl(var(--av-accent-glow))] transition-all duration-300"
               >
                 {t.button}
                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
@@ -77,36 +77,41 @@ export default function FinalCta() {
             </div>
           </Reveal>
           <Reveal i={3}>
-            <p className="mt-8 text-xs text-faint">{t.note}</p>
+            <p className="mt-8 text-xs text-faint font-mono-tech">{t.note}</p>
           </Reveal>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-line">
+      <footer className="border-t border-line bg-[hsl(var(--av-bg-panel)/0.4)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-14 grid md:grid-cols-[1.4fr_1fr_1fr] gap-12">
           <div>
             <Logo />
-            <p className="mt-5 text-dim max-w-xs leading-relaxed">{f.tagline}</p>
+            <p className="mt-5 text-xs text-dim max-w-xs leading-relaxed font-mono-tech">{f.tagline}</p>
             <div className="mt-4 flex flex-col gap-1 text-xs font-mono-tech text-dim">
-              <span>Email: <a href={`mailto:${contactMail}`} className="text-accent hover:underline">{contactMail}</a></span>
-              <span>Telegram: <a href="https://t.me/av_digital_studio" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@av_digital_studio</a></span>
+              <span>Email: <a href={`mailto:${contactMail}`} className="text-accent hover:underline font-bold">{contactMail}</a></span>
+              <span>Telegram: <a href="https://t.me/av_digital_studio" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline font-bold">@av_digital_studio</a></span>
             </div>
           </div>
           {f.cols.map(([title, links], colIdx) => (
             <div key={title}>
-              <div className="font-mono-tech text-[11px] tracking-[0.22em] uppercase text-faint mb-5">{title}</div>
+              <div className="font-mono-tech text-[11px] tracking-[0.22em] uppercase text-faint mb-5 font-bold">{title}</div>
               <ul className="flex flex-col gap-3">
-                {links.map((l, li) => (
-                  <li key={l}>
-                    <a
-                      href={colIdx === 0 ? '#services' : ['#cases', '#process', '#arch', '#contact'][li] ?? '#top'}
-                      className="text-sm text-dim hover:text-accent transition-colors duration-300"
-                    >
-                      {l}
-                    </a>
-                  </li>
-                ))}
+                {links.map((l, li) => {
+                  const hrefsCol0 = ['#solutions', '#solutions', '#sandbox', '#integrations', '#architecture']
+                  const hrefsCol1 = ['#pipeline-scroll', '#architecture', '#sandbox', '#process', '#contact']
+                  const targetHref = colIdx === 0 ? (hrefsCol0[li] || '#solutions') : (hrefsCol1[li] || '#contact')
+                  return (
+                    <li key={l}>
+                      <a
+                        href={targetHref}
+                        className="text-xs font-mono-tech text-dim hover:text-[hsl(var(--av-accent))] transition-colors duration-300"
+                      >
+                        {l}
+                      </a>
+                    </li>
+                  )
+                })}
               </ul>
             </div>
           ))}
@@ -115,8 +120,8 @@ export default function FinalCta() {
           <div className="max-w-7xl mx-auto px-6 md:px-10 py-6 flex flex-wrap items-center justify-between gap-4 font-mono-tech text-[11px] text-faint">
             <span>{f.rights}</span>
             <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--av-accent))] anim-pulse-node" />
-              {lang === 'ru' ? 'Системы в норме' : 'All systems operational'}
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {lang === 'ru' ? 'Все системы в норме • 99.99% SLA' : 'All systems operational • 99.99% SLA'}
             </span>
           </div>
         </div>

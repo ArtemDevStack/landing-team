@@ -10,9 +10,9 @@
     --av-bg-panel: 220 11% 8%;
     --av-line: 220 10% 14%;
     --av-line-strong: 220 9% 22%;
-    --av-text: 40 12% 94%;
-    --av-text-dim: 220 8% 62%;
-    --av-text-faint: 220 7% 42%;
+    --av-text: 40 15% 98%;
+    --av-text-dim: 220 14% 82%;
+    --av-text-faint: 220 14% 70%;
     /* Amber signal accent */
     --av-accent: 38 96% 56%;
     --av-accent-soft: 38 96% 56% / 0.12;

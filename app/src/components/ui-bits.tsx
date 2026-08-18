@@ -79,56 +79,79 @@ export function Rail({ left, right }: { left: string; right: string }) {
 }
 
 /* ---------- AVT Monogram Logo ---------- */
-export function Logo({ size = 40 }: { size?: number }) {
+export function Logo({ size = 38, showText = false }: { size?: number; showText?: boolean }) {
   return (
-    <div className="flex items-center select-none cursor-pointer group" aria-label="AVT Logo">
-      <div
-        style={{ width: size, height: size }}
-        className="relative flex items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--av-bg-panel))] to-[hsl(var(--av-bg-raise))] border border-[hsl(var(--av-accent)/0.65)] shadow-[0_0_22px_hsl(var(--av-accent-glow))] group-hover:border-[hsl(var(--av-accent))] group-hover:shadow-[0_0_32px_hsl(var(--av-accent-glow))] transition-all duration-300"
-      >
-        <svg width={size - 10} height={size - 10} viewBox="0 0 36 36" fill="none">
+    <div className="flex items-center gap-3 select-none cursor-pointer group" aria-label="AV Logo">
+      <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="drop-shadow-[0_0_16px_hsl(var(--av-accent-glow))]"
+        >
           <defs>
-            <linearGradient id="avtLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="avGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="hsl(var(--av-accent))" />
-              <stop offset="100%" stopColor="hsl(42 100% 68%)" />
+              <stop offset="100%" stopColor="hsl(45 100% 68%)" />
+            </linearGradient>
+            <linearGradient id="avGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="hsl(var(--av-accent))" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="hsl(var(--av-accent-soft))" />
             </linearGradient>
           </defs>
-          {/* Top T-Bar */}
+
+          {/* Futuristic Hex Shield Contour */}
           <path
-            d="M 6 8 H 30"
-            stroke="url(#avtLogoGrad)"
-            strokeWidth="3.2"
-            strokeLinecap="round"
+            d="M 20 3 L 36 11.5 V 28.5 L 20 37 L 4 28.5 V 11.5 Z"
+            fill="hsl(var(--av-bg-raise))"
+            stroke="url(#avGrad1)"
+            strokeWidth="1.5"
+            strokeOpacity="0.65"
           />
-          {/* Central T stem */}
+
+          {/* Interlocking Monogram A & V */}
+          {/* A Left Leg */}
           <path
-            d="M 18 8 V 28"
-            stroke="url(#avtLogoGrad)"
-            strokeWidth="3"
-            strokeLinecap="round"
+            d="M 10 28 L 20 8 L 24 8 L 14 28 Z"
+            fill="url(#avGrad1)"
           />
-          {/* A & V Angled Wings */}
+          {/* A Right Leg */}
           <path
-            d="M 7 28 L 18 8 L 29 28"
-            stroke="url(#avtLogoGrad)"
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            d="M 30 28 L 20 8 L 16 8 L 26 28 Z"
+            fill="url(#avGrad1)"
           />
+          {/* V Downward Apex Overlay */}
+          <path
+            d="M 13 13 L 20 32 L 27 13 L 23 13 L 20 25 L 17 13 Z"
+            fill="hsl(var(--av-accent))"
+            fillOpacity="0.9"
+          />
+
           {/* A Crossbar */}
-          <path
-            d="M 11 19 H 25"
-            stroke="hsl(var(--av-text))"
+          <line
+            x1="12"
+            y1="20"
+            x2="28"
+            y2="20"
+            stroke="hsl(var(--av-accent))"
             strokeWidth="2"
             strokeLinecap="round"
           />
-          {/* Node Points */}
-          <circle cx="18" cy="8" r="2.2" fill="hsl(var(--av-accent))" />
-          <circle cx="6" cy="8" r="2" fill="hsl(var(--av-accent))" />
-          <circle cx="30" cy="8" r="2" fill="hsl(var(--av-accent))" />
-          <circle cx="18" cy="28" r="2" fill="hsl(var(--av-accent))" />
+
+          {/* Glowing Tech Nodes */}
+          <circle cx="20" cy="8" r="2" fill="#ffffff" />
+          <circle cx="20" cy="32" r="2" fill="hsl(var(--av-accent))" />
+          <circle cx="10" cy="28" r="1.5" fill="hsl(var(--av-accent))" />
+          <circle cx="30" cy="28" r="1.5" fill="hsl(var(--av-accent))" />
         </svg>
       </div>
+      {showText && (
+        <span className="font-mono-tech font-bold text-lg tracking-wider text-foreground group-hover:text-accent transition-colors duration-300">
+          AV<span className="text-accent">.</span>
+        </span>
+      )}
     </div>
   )
 }

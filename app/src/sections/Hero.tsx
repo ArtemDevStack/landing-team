@@ -1,131 +1,65 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { Reveal } from '../components/ui-bits'
 import { useLang, ui } from '../i18n'
 import { useOrderModal } from '../context/ModalContext'
 
-const PIPELINE = {
-  ru: [
-    ['IDEA', 'Стратегия и экономика продукта'],
-    ['DESIGN', 'UX/UI и дизайн-система'],
-    ['DEVELOPMENT', 'Инженерия и код'],
-    ['AI', 'Агенты, RAG, автоматизация'],
-    ['GROWTH', 'Маркетинг и масштабирование'],
-  ],
-  en: [
-    ['IDEA', 'Strategy & product economics'],
-    ['DESIGN', 'UX/UI & design system'],
-    ['DEVELOPMENT', 'Engineering & code'],
-    ['AI', 'Agents, RAG, automation'],
-    ['GROWTH', 'Marketing & scaling'],
-  ],
-} as const
 
-function Pipeline() {
-  const { lang } = useLang()
-  const nodes = PIPELINE[lang]
-  const [active, setActive] = useState(2)
+function AnimatedCounter({ value, duration = 2 }: { value: string; duration?: number }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.3 })
+
+  const match = value.match(/^(\D*)(\d+(?:\.\d+)?)(.*)$/)
+  const targetNum = match ? parseFloat(match[2]) : 0
+
+  useEffect(() => {
+    if (!isInView || targetNum <= 0) return
+
+    let startTime: number | null = null
+    let animationFrameId: number
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp
+      const elapsed = (timestamp - startTime) / 1000
+      const progress = Math.min(elapsed / duration, 1)
+
+      const easeOut = 1 - Math.pow(1 - progress, 3)
+      const current = targetNum * easeOut
+
+      setCount(current)
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(step)
+      }
+    }
+
+    animationFrameId = requestAnimationFrame(step)
+
+    return () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId)
+    }
+  }, [isInView, targetNum, duration])
+
+  if (!match) return <span>{value}</span>
+
+  const prefix = match[1]
+  const suffix = match[3]
+  const isFloat = match[2].includes('.')
+  const formatted = isFloat ? count.toFixed(1) : Math.floor(count)
 
   return (
-    <div className="mt-16 md:mt-20">
-      {/* Desktop / tablet: horizontal chain */}
-      <div className="hidden md:grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] items-stretch gap-0">
-        {nodes.map(([label, desc], idx) => (
-          <div key={label} className="contents">
-            <button
-              onMouseEnter={() => setActive(idx)}
-              onFocus={() => setActive(idx)}
-              className={`group relative rounded-2xl border px-4 py-5 text-left transition-all duration-500 ${
-                active === idx
-                  ? 'border-[hsl(var(--av-accent)/0.7)] bg-[hsl(var(--av-accent)/0.07)] shadow-[0_0_40px_hsl(var(--av-accent-glow))]'
-                  : 'border-line bg-[hsl(var(--av-bg-raise)/0.5)] hover:border-[hsl(var(--av-line-strong))]'
-              }`}
-            >
-              <div className="font-mono-tech text-[10px] tracking-[0.25em] text-faint mb-2">
-                {String(idx + 1).padStart(2, '0')}
-              </div>
-              <div
-                className={`font-display font-bold text-sm lg:text-base tracking-tight transition-colors duration-500 ${
-                  active === idx ? 'text-accent' : 'text-foreground'
-                }`}
-              >
-                {label}
-              </div>
-              <div
-                className={`mt-2 text-xs leading-snug transition-all duration-500 ${
-                  active === idx ? 'text-dim opacity-100' : 'text-faint opacity-60'
-                }`}
-              >
-                {desc}
-              </div>
-              <span
-                className={`absolute -bottom-px left-4 right-4 h-px bg-[hsl(var(--av-accent))] transition-opacity duration-500 ${
-                  active === idx ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-            </button>
-            {idx < nodes.length - 1 && (
-              <div className="flex items-center px-1 lg:px-2" aria-hidden>
-                <svg width="40" height="12" viewBox="0 0 40 12" className="lg:w-12">
-                  <line
-                    x1="0" y1="6" x2="30" y2="6"
-                    stroke={active === idx || active === idx + 1 ? 'hsl(var(--av-accent))' : 'hsl(var(--av-line-strong))'}
-                    strokeWidth="1.5"
-                    strokeDasharray="5 5"
-                    className="anim-dash transition-colors duration-500"
-                  />
-                  <path
-                    d="M30 2 L38 6 L30 10"
-                    fill="none"
-                    stroke={active === idx || active === idx + 1 ? 'hsl(var(--av-accent))' : 'hsl(var(--av-line-strong))'}
-                    strokeWidth="1.5"
-                    className="transition-colors duration-500"
-                  />
-                </svg>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Mobile: vertical chain */}
-      <div className="md:hidden flex flex-col">
-        {nodes.map(([label, desc], idx) => (
-          <div key={label}>
-            <button
-              onClick={() => setActive(idx)}
-              className={`w-full rounded-2xl border px-5 py-4 text-left transition-all duration-500 ${
-                active === idx
-                  ? 'border-[hsl(var(--av-accent)/0.7)] bg-[hsl(var(--av-accent)/0.07)]'
-                  : 'border-line bg-[hsl(var(--av-bg-raise)/0.5)]'
-              }`}
-            >
-              <div className="flex items-baseline justify-between">
-                <span className={`font-display font-bold tracking-tight ${active === idx ? 'text-accent' : ''}`}>
-                  {label}
-                </span>
-                <span className="font-mono-tech text-[10px] tracking-[0.25em] text-faint">
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
-              </div>
-              <div className={`mt-1 text-xs ${active === idx ? 'text-dim' : 'text-faint'}`}>{desc}</div>
-            </button>
-            {idx < nodes.length - 1 && (
-              <div className="flex justify-center py-1" aria-hidden>
-                <svg width="12" height="20" viewBox="0 0 12 20">
-                  <line x1="6" y1="0" x2="6" y2="13" stroke="hsl(var(--av-line-strong))" strokeWidth="1.5" strokeDasharray="4 4" className="anim-dash" />
-                  <path d="M2 12 L6 19 L10 12" fill="none" stroke="hsl(var(--av-line-strong))" strokeWidth="1.5" />
-                </svg>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+    <span ref={ref} className="inline-block tabular-nums">
+      {prefix}
+      {isInView ? formatted : '0'}
+      {suffix}
+    </span>
   )
 }
+
+
 
 export default function Hero() {
   const { lang } = useLang()
@@ -133,22 +67,23 @@ export default function Hero() {
   const t = ui[lang].hero
 
   return (
-    <section id="top" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-20">
-      {/* Background layers */}
+    <section id="top" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-16">
+      {/* Dynamic Ambient Background layers */}
       <div className="absolute inset-0 bg-grid mask-fade-b opacity-70" aria-hidden />
       <div
-        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full blur-[140px] opacity-[0.10]"
+        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full blur-[140px] opacity-[0.12]"
         style={{ background: 'hsl(var(--av-accent))' }}
         aria-hidden
       />
       <div
-        className="absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full blur-[160px] opacity-[0.05]"
+        className="absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full blur-[160px] opacity-[0.07]"
         style={{ background: 'hsl(210 80% 60%)' }}
         aria-hidden
       />
-      {/* Watermark */}
+
+      {/* Futuristic Watermark */}
       <div
-        className="pointer-events-none select-none absolute -right-8 top-24 font-display font-extrabold text-stroke leading-none text-[38vw] lg:text-[26vw] opacity-[0.16]"
+        className="pointer-events-none select-none absolute -right-8 top-24 font-display font-extrabold text-stroke leading-none text-[38vw] lg:text-[26vw] opacity-[0.14]"
         aria-hidden
       >
         AV
@@ -156,7 +91,7 @@ export default function Hero() {
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-10 w-full">
         <Reveal>
-          <div className="inline-flex items-center gap-3 rounded-full border border-line bg-[hsl(var(--av-bg-raise)/0.6)] px-4 py-2 font-mono-tech text-[11px] tracking-[0.2em] uppercase text-dim">
+          <div className="inline-flex items-center gap-3 rounded-full border border-line bg-[hsl(var(--av-bg-raise)/0.6)] px-4 py-2 font-mono-tech text-[11px] tracking-[0.2em] uppercase text-dim shadow-md backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--av-accent))] anim-pulse-node" />
             {t.badge}
           </div>
@@ -180,7 +115,7 @@ export default function Hero() {
               onClick={() => openOrderModal()}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-8 py-4 text-base hover:shadow-[0_0_48px_hsl(var(--av-accent-glow))] transition-shadow duration-300"
+              className="inline-flex items-center gap-3 rounded-full bg-[hsl(var(--av-accent))] text-black font-bold px-8 py-4 text-base hover:shadow-[0_0_48px_hsl(var(--av-accent-glow))] transition-all duration-300"
             >
               {t.cta1}
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -188,34 +123,36 @@ export default function Hero() {
               </svg>
             </motion.button>
             <motion.a
-              href="#cases"
+              href="#why-us"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-3 rounded-full border border-line-strong px-8 py-4 text-base font-semibold text-foreground hover:border-[hsl(var(--av-accent)/0.6)] hover:text-accent transition-colors duration-300"
+              className="inline-flex items-center gap-3 rounded-full border border-line-strong px-8 py-4 text-base font-semibold text-foreground hover:border-[hsl(var(--av-accent)/0.6)] hover:text-accent transition-colors duration-300 bg-[hsl(var(--av-bg-raise)/0.4)]"
             >
-              {t.cta2}
+              {lang === 'ru' ? '⚡ Почему с нами выгоднее' : '⚡ Why Choose AV Team'}
             </motion.a>
           </div>
         </Reveal>
 
-        {/* Stats */}
+        {/* Animated Counting Stats */}
         <Reveal i={4}>
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 border-t border-line">
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 border-t border-line pt-4">
             {t.stats.map(([num, label], idx) => (
               <div
                 key={label}
-                className={`py-6 pr-6 ${idx !== 0 ? 'md:border-l md:border-line md:pl-6' : ''}`}
+                className={`py-5 pr-6 ${idx !== 0 ? 'md:border-l md:border-line md:pl-6' : ''}`}
               >
-                <div className="font-display text-3xl md:text-4xl font-extrabold tracking-tight">{num}</div>
-                <div className="mt-1 text-xs md:text-sm text-faint">{label}</div>
+                <div className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-foreground group">
+                  <span className="text-[hsl(var(--av-accent))] text-glow">
+                    <AnimatedCounter value={num} duration={2.2} />
+                  </span>
+                </div>
+                <div className="mt-1.5 text-xs md:text-sm font-mono-tech text-faint uppercase tracking-wider">{label}</div>
               </div>
             ))}
           </div>
         </Reveal>
 
-        <Reveal i={5}>
-          <Pipeline />
-        </Reveal>
+
       </div>
     </section>
   )
